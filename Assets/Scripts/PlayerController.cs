@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,12 +8,25 @@ public class PlayerController : MonoBehaviour
     public float speed = 25.0f;
     public float baseVelocity = 0f;
     private float velocity = 0f;
+    private float health = 100.0f;
 
     public GameObject bulletPrefab;
+
+    private GameObject text;
 
     void Start()
     {
         velocity = baseVelocity;
+        text = GameObject.Find("HealthText");
+        if (text)
+        {
+            text.GetComponent<TMP_Text>().text = "Health: " + health;
+        }
+        else
+        {
+            Debug.LogWarning("No health text found.");
+        }
+
     }
 
     // Update is called once per frame
@@ -115,7 +129,23 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void GetHit(float damage = 35)
+    {
+        health -= damage;
+        text.GetComponent<TMP_Text>().text = "Health: " + health;
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            print("Hit by enemy bullet");
+            GetHit(collision.gameObject.GetComponent<BulletController>().damage);
+            Destroy(collision.gameObject);
+        }
     }
 }

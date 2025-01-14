@@ -55,7 +55,9 @@ public class EnemyController : MonoBehaviour
         }
         Vector3 direction = (target.transform.position + (target.transform.forward * 5f) - this.gameObject.transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
-        Instantiate(bulletPrefab, this.gameObject.transform.position + Vector3.up * 3f, rotation);
+        GameObject bullet = Instantiate(bulletPrefab, this.gameObject.transform.position + Vector3.up * 3f, rotation);
+        bullet.GetComponent<BulletController>().speed = 20.0f;
+        bullet.GetComponent<BulletController>().damage = 20.0f;
         currentShootInterval = 0.0f;
     }
 
@@ -64,7 +66,9 @@ public class EnemyController : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            Instantiate(loot, this.gameObject.transform.position + Vector3.up * 3f, this.gameObject.transform.rotation);
+            if (loot)
+                Instantiate(loot, this.gameObject.transform.position + Vector3.up * 3f, this.gameObject.transform.rotation);
+            GameObject.Find("Spawner").GetComponent<WaveManager>().EnemyDied();
             Destroy(this.gameObject);
         }
     }

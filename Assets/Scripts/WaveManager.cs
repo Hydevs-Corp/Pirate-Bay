@@ -47,9 +47,10 @@ public class WaveManager : MonoBehaviour
 
             enemiesAlive++;
             GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-            GameObject loot = Instantiate(lootPrefab, spawnPoint.position, spawnPoint.rotation);
+
 
             enemy.GetComponent<EnemyController>().target = target;
+            enemy.GetComponent<EnemyController>().loot = lootPrefab;
 
         }
         return;

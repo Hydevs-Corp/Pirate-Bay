@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    readonly float speed = 75.0f;
+    public float speed = 75.0f;
     float lifeTime = 2.0f;
     float currentLifeTime = 0.0f;
 
@@ -17,5 +17,9 @@ public class BulletController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
     }
 }
