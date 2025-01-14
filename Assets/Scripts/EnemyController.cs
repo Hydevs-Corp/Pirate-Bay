@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
     public NavMeshAgent agent;
     public GameObject bulletPrefab;
 
-    private int health = 100;
+    private float health = 100;
     private float shootInterval = 2.0f;
     private float currentShootInterval = 2.0f;
 
@@ -57,9 +57,9 @@ public class EnemyController : MonoBehaviour
         currentShootInterval = 0.0f;
     }
 
-    private void GetHit()
+    private void GetHit(float damage = 35)
     {
-        health -= 35;
+        health -= damage;
         if (health <= 0)
         {
             Destroy(this.gameObject);
@@ -70,7 +70,8 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            GetHit();
+
+            GetHit(collision.gameObject.GetComponent<BulletController>().damage);
             Destroy(collision.gameObject);
 
         }

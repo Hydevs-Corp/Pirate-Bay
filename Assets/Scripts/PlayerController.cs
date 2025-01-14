@@ -78,16 +78,43 @@ public class PlayerController : MonoBehaviour
         {
             Quaternion rotation = this.transform.rotation;
             rotation *= Quaternion.Euler(0, 90, 0);
-            Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
+            GameObject bullet = Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
+            bullet.GetComponent<BulletController>().damage = 20.0f;
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Quaternion rotation = this.transform.rotation;
             rotation *= Quaternion.Euler(0, -90, 0);
-            Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
+            GameObject bullet = Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
+            bullet.GetComponent<BulletController>().damage = 20.0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ShootMortar();
         }
 
     }
+
+    private void ShootMortar()
+    {
+        GameObject plane = GameObject.Find("Plane");
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane planeObj = new Plane(Vector3.up, plane.transform.position);
+        if (planeObj.Raycast(ray, out float distance))
+        {
+            Vector3 target = ray.GetPoint(distance);
+            Vector3 direction = target - this.transform.position;
+            direction.y = 0;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            rotation *= Quaternion.Euler(-5, 0, 0);
+            GameObject bullet = Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
+            bullet.GetComponent<BulletController>().damage = 50.0f;
+        }
+
+
+    }
+
     void OnCollisionEnter(Collision collision)
     {
     }
