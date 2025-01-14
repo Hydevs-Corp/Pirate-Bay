@@ -45,7 +45,7 @@ public class WaveManager : MonoBehaviour
             int lootIndex = Random.Range(0, loots.Count);
             GameObject lootPrefab = loots[lootIndex];
 
-
+            enemiesAlive++;
             GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
             GameObject loot = Instantiate(lootPrefab, spawnPoint.position, spawnPoint.rotation);
 

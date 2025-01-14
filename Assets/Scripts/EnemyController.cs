@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public GameObject bulletPrefab;
 
     public GameObject loot;
-    private int health = 100;
+    private float health = 100;
     private float shootInterval = 2.0f;
     private float currentShootInterval = 2.0f;
 
