@@ -6,107 +6,154 @@ public class PlayerController : MonoBehaviour
 {
 
     public float speed = 25.0f;
-    public float baseVelocity = 0f;
-    private float velocity = 0f;
-
+    public float rotationSpeed = 25.0f;
     public float score = 0f;
     private float health = 100.0f;
 
     public GameObject bulletPrefab;
 
-    private GameObject text;
+    private GameObject healthText;
+    private GameObject scoreText;
+
+    private float shootInterval = 0.25f;
+    private float shootIntervalMortar = 0.9f;
+    private float currentShootIntervalLeft = 2.0f;
+    private float currentShootIntervalRight = 2.0f;
+    private float currentShootIntervalMortar = 2.0f;
+    private Rigidbody rb;
+
+    private float vertical;
+    private float horizontal;
 
     void Start()
     {
-        velocity = baseVelocity;
-        text = GameObject.Find("HealthText");
-        if (text)
+        healthText = GameObject.Find("HealthText");
+        scoreText = GameObject.Find("ScoreText");
+        if (healthText)
         {
-            text.GetComponent<TMP_Text>().text = "Health: " + health;
+            healthText.GetComponent<TMP_Text>().text = "Health: " + health;
+            scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
         }
         else
         {
             Debug.LogWarning("No health text found.");
         }
+        rb = gameObject.GetComponent<Rigidbody>();
 
     }
 
-    // Update is called once per frame
+    void FixedUpdate()
+    {
+        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
+
+        Vector3 velocity = transform.forward * vertical * speed * Time.fixedDeltaTime;
+        velocity.y = rb.linearVelocity.y;
+        rb.linearVelocity = velocity;
+        transform.Rotate(transform.up * horizontal * rotationSpeed * Time.fixedDeltaTime);
+    }
+
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+
+        if (currentShootIntervalLeft < shootInterval)
         {
-            velocity += 0.1f;
-            if (velocity < 0)
-                velocity += 0.1f;
+            currentShootIntervalLeft += Time.deltaTime;
         }
-        else
+        if (currentShootIntervalRight < shootInterval)
         {
-            if (velocity > 0)
-                velocity -= 0.01f;
+            currentShootIntervalRight += Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (currentShootIntervalMortar < shootIntervalMortar)
         {
-            if (velocity > 0)
-            {
-                velocity -= 0.05f;
-            }
-            else
-            {
-                velocity -= 0.01f;
-            }
-        }
-        else
-        {
-            if (velocity < 0)
-                velocity += 0.01f;
+            currentShootIntervalMortar += Time.deltaTime;
         }
 
-        if (velocity > speed)
-        {
-            velocity = speed;
-        }
-        if (velocity < -speed / 2)
-        {
-            velocity = -speed / 2;
-        }
+        // if (Input.GetKey(KeyCode.W))
+        // {
+        //     velocity += 0.1f;
+        //     if (velocity < 0)
+        //         velocity += 0.1f;
+        // }
+        // else
+        // {
+        //     if (velocity > 0)
+        //         velocity -= 0.01f;
+        // }
+        // if (Input.GetKey(KeyCode.S))
+        // {
+        //     if (velocity > 0)
+        //     {
+        //         velocity -= 0.8f;
+        //     }
+        //     else
+        //     {
+        //         velocity -= 0.05f;
+        //     }
+        // }
+        // else
+        // {
+        //     if (velocity < 0)
+        //         velocity += 0.01f;
+        // }
 
-        this.transform.position += this.transform.forward * velocity * Time.deltaTime;
+        // if (velocity > speed)
+        // {
+        //     velocity = speed;
+        // }
+        // if (velocity < -speed / 2)
+        // {
+        //     velocity = -speed / 2;
+        // }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            this.gameObject.transform.Rotate(0, -1 * Time.deltaTime * 50.0f, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            this.gameObject.transform.Rotate(0, 1 * Time.deltaTime * 50.0f, 0);
-        }
+        // print(velocity);
+        // rb.linearVelocity = velocity * Time.deltaTime * 50.0f * transform.forward;
 
-        if (speed < 25.0f)
-        {
-            speed += 0.01f;
-        }
+        // if (Input.GetKey(KeyCode.A))
+        // {
+        //     gameObject.transform.Rotate(0, -1 * Time.deltaTime * 50.0f, 0);
+        // }
+        // if (Input.GetKey(KeyCode.D))
+        // {
+        //     gameObject.transform.Rotate(0, 1 * Time.deltaTime * 50.0f, 0);
+        // }
 
-        if (speed > 15f)
-        { this.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero; }
+        // if (speed < 25.0f)
+        // {
+        //     speed += 0.01f;
+        // }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Quaternion rotation = this.transform.rotation;
+            if (currentShootIntervalRight < shootInterval)
+            {
+                return;
+            }
+            Quaternion rotation = transform.rotation;
             rotation *= Quaternion.Euler(0, 90, 0);
-            GameObject bullet = Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
-            bullet.GetComponent<BulletController>().damage = 20.0f;
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
+            bullet.GetComponent<BulletController>().damage = 80.0f;
+            currentShootIntervalRight = 0.0f;
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Quaternion rotation = this.transform.rotation;
+            if (currentShootIntervalLeft < shootInterval)
+            {
+                return;
+            }
+            Quaternion rotation = transform.rotation;
             rotation *= Quaternion.Euler(0, -90, 0);
-            GameObject bullet = Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
-            bullet.GetComponent<BulletController>().damage = 20.0f;
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
+            bullet.GetComponent<BulletController>().damage = 80.0f;
+            currentShootIntervalLeft = 0.0f;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (currentShootIntervalMortar < shootIntervalMortar)
+            {
+                return;
+            }
             ShootMortar();
         }
 
@@ -120,12 +167,13 @@ public class PlayerController : MonoBehaviour
         if (planeObj.Raycast(ray, out float distance))
         {
             Vector3 target = ray.GetPoint(distance);
-            Vector3 direction = target - this.transform.position;
+            Vector3 direction = target - transform.position;
             direction.y = 0;
             Quaternion rotation = Quaternion.LookRotation(direction);
             rotation *= Quaternion.Euler(-5, 0, 0);
-            GameObject bullet = Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
-            bullet.GetComponent<BulletController>().damage = 50.0f;
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
+            bullet.GetComponent<BulletController>().damage = 30.0f;
+            currentShootIntervalMortar = 0.0f;
         }
 
 
@@ -134,10 +182,15 @@ public class PlayerController : MonoBehaviour
     private void GetHit(float damage = 35)
     {
         health -= damage;
-        text.GetComponent<TMP_Text>().text = "Health: " + health;
         if (health <= 0)
         {
-            Destroy(this.gameObject);
+            health = 0;
+        }
+        healthText.GetComponent<TMP_Text>().text = "Health: " + health;
+        if (health <= 0)
+        {
+
+            Destroy(gameObject);
         }
     }
 
@@ -146,8 +199,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Loot"))
         {
             score++;
-            print("Score: " + score);
+            scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
             Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            GetHit();
         }
     }
 }
