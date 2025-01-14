@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour
         if (health <= 0)
         {
             if (loot)
-                Instantiate(loot, this.gameObject.transform.position + Vector3.up * 3f, this.gameObject.transform.rotation);
+                Instantiate(loot, this.gameObject.transform.position + Vector3.up * 1f, this.gameObject.transform.rotation);
             GameObject.Find("Spawner").GetComponent<WaveManager>().EnemyDied();
             Destroy(this.gameObject);
         }
