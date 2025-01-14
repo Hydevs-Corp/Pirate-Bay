@@ -920,7 +920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 2943294187330575730, guid: 25fb0e0b8a5999a46bb88f87310060d4, type: 3}
-  spawnInterval: 5
+  spawnInterval: 50
   spawnPoints:
   - {fileID: 1336254292}
   - {fileID: 1913707269}
@@ -1647,7 +1647,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 3.3333333
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 36c94ae2a0176b141b5307f8ca20835d, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a53d76d1083b97d4fbf38922241a7176, type: 2}
 --- !u!4 &1936014079
 Transform:
   m_ObjectHideFlags: 0
@@ -1731,6 +1731,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5480577822606915484, guid: a63830d48d4e56041948c08202c39764, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 7737710467234772094, guid: b49cc4495bd1a974eaea8f39d5ebfbb4, type: 3}
     - target: {fileID: 7543106693831633265, guid: a63830d48d4e56041948c08202c39764, type: 3}
       propertyPath: m_Layer
       value: 6

@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     public float speed = 25.0f;
     public float baseVelocity = 0f;
     private float velocity = 0f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public GameObject bulletPrefab;
+
     void Start()
     {
         velocity = baseVelocity;
@@ -72,12 +74,21 @@ public class PlayerController : MonoBehaviour
         if (speed > 15f)
         { this.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero; }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Quaternion rotation = this.transform.rotation;
+            rotation *= Quaternion.Euler(0, 90, 0);
+            Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Quaternion rotation = this.transform.rotation;
+            rotation *= Quaternion.Euler(0, -90, 0);
+            Instantiate(bulletPrefab, this.transform.position + this.transform.forward + Vector3.up * 3f, rotation);
+        }
+
     }
     void OnCollisionEnter(Collision collision)
     {
-        // if (collision.gameObject.tag == "Player")
-        // {
-        speed = 5.0f;
-        // }
     }
 }

@@ -128,6 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df50dd788f289ca4f9505c2e947be2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 25
+  baseVelocity: 0
+  bulletPrefab: {fileID: 0}
 --- !u!54 &-3763562829758406682
 Rigidbody:
   m_ObjectHideFlags: 0
