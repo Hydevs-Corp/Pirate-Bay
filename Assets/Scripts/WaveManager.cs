@@ -7,6 +7,9 @@ public class WaveManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public List<GameObject> enemyPrefabs;
     public float spawnInterval = 50f;
+
+    public List<GameObject> loots;
+
     public List<Transform> spawnPoints;
     public GameObject target;
 
@@ -39,8 +42,13 @@ public class WaveManager : MonoBehaviour
             int enemyIndex = Random.Range(0, enemyPrefabs.Count);
             GameObject enemyPrefab = enemyPrefabs[enemyIndex];
 
+            int lootIndex = Random.Range(0, loots.Count);
+            GameObject lootPrefab = loots[lootIndex];
+
+
             GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-            enemiesAlive++;
+            GameObject loot = Instantiate(lootPrefab, spawnPoint.position, spawnPoint.rotation);
+
             enemy.GetComponent<EnemyController>().target = target;
 
         }
