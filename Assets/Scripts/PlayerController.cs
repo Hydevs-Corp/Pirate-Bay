@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float speed = 25.0f;
     public float baseVelocity = 0f;
     private float velocity = 0f;
+
+    public float score = 0f;
     private float health = 100.0f;
 
     public GameObject bulletPrefab;
@@ -141,11 +143,5 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("EnemyBullet"))
-        {
-            print("Hit by enemy bullet");
-            GetHit(collision.gameObject.GetComponent<BulletController>().damage);
-            Destroy(collision.gameObject);
-        }
     }
 }

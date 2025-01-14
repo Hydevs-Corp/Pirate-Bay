@@ -3670,9 +3670,7 @@ MonoBehaviour:
   - {fileID: 5061042818586421239, guid: 832c75c01b2a9694d8a51f6b67712323, type: 3}
   spawnInterval: 5
   loots:
-  - {fileID: 919132149155446097, guid: 97a7e28a9a951fa4d987403f8d469aef, type: 3}
-  - {fileID: 919132149155446097, guid: 82691f712e45a424390252c535e1a8f4, type: 3}
-  - {fileID: 919132149155446097, guid: 3b6b4b861904a5641a5b0dfe4e176899, type: 3}
+  - {fileID: 91333962936266407, guid: e331f563cc755464c816bec3c4776602, type: 3}
   spawnPoints:
   - {fileID: 1336254292}
   - {fileID: 1913707269}
