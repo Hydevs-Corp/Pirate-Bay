@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ship-ghost
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a24ef894595656c4cb0b6b93f1092d45, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -158,10 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933e2d6abb06e514d9ab79d157c6940f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  rotationSpeed: 5
   target: {fileID: 0}
   agent: {fileID: 4727826062122568117}
+  bulletPrefab: {fileID: 7737710467234772094, guid: 51ea4b98f67072143b68a9b1522ba131, type: 3}
 --- !u!195 &4727826062122568117
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -175,10 +178,10 @@ NavMeshAgent:
   m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 90
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 10
   m_BaseOffset: -1

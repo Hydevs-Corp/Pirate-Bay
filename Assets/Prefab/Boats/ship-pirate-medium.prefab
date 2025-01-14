@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ship-pirate-medium
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 53a7e76dad5e9fc49aa4a9dd5c0005df, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -68,6 +72,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53a7e76dad5e9fc49aa4a9dd5c0005df, type: 3}
       insertIndex: -1
       addedObject: {fileID: -6452171473538831061}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53a7e76dad5e9fc49aa4a9dd5c0005df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -100819228602313925}
   m_SourcePrefab: {fileID: 100100000, guid: 53a7e76dad5e9fc49aa4a9dd5c0005df, type: 3}
 --- !u!1 &169244064678587550 stripped
 GameObject:
@@ -155,6 +162,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933e2d6abb06e514d9ab79d157c6940f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  rotationSpeed: 5
   target: {fileID: 0}
+  agent: {fileID: -100819228602313925}
+  bulletPrefab: {fileID: 7737710467234772094, guid: 51ea4b98f67072143b68a9b1522ba131, type: 3}
+--- !u!195 &-100819228602313925
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169244064678587550}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 5.2999997
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 10
+  m_BaseOffset: -1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

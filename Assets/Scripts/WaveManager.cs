@@ -6,7 +6,7 @@ public class WaveManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public List<GameObject> enemyPrefabs;
-    public float spawnInterval = 5f;
+    public float spawnInterval = 50f;
     public List<Transform> spawnPoints;
     public GameObject target;
 

@@ -4,66 +4,75 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
 
-    public float speed = 20.0f;
-    public float rotationSpeed = 15f;
     public GameObject target;
     public NavMeshAgent agent;
+    public GameObject bulletPrefab;
 
+    private int health = 100;
+    private float shootInterval = 2.0f;
+    private float currentShootInterval = 2.0f;
 
     void Update()
     {
 
         if (agent && target)
         {
-            agent.SetDestination(target.transform.position);
+
+            float distance = Vector3.Distance(this.gameObject.transform.position, target.transform.position);
+
+            Vector3 left = target.transform.position + target.transform.forward * 20f;
+            float distanceToLeft = Vector3.Distance(this.gameObject.transform.position, left);
+
+            Vector3 right = target.transform.position + target.transform.right * 20f;
+            float distanceToRight = Vector3.Distance(this.gameObject.transform.position, right);
+
+
+            if (distanceToLeft < distanceToRight)
+            {
+                agent.SetDestination(left);
+            }
+            else if (distanceToLeft > distanceToRight)
+            {
+                agent.SetDestination(right);
+            }
+
+            if (distanceToLeft < 20f || distanceToRight < 20f || distance < 20f)
+            {
+                Shoot();
+            }
         }
-        else
+
+    }
+
+    private void Shoot()
+    {
+        if (currentShootInterval < shootInterval)
         {
-
+            currentShootInterval += Time.deltaTime;
+            return;
         }
-        // if (target)
-        // {
-        //     float distance = Vector3.Distance(this.gameObject.transform.position, target.transform.position);
-        //     if (distance > 25.0f)
-        //     {
-        //         if (speed < 25.0f)
-        //         {
-        //             speed += 0.01f;
-        //         }
-        //         Vector3 direction = target.transform.position - this.gameObject.transform.position;
+        Vector3 direction = (target.transform.position + (target.transform.forward * 5f) - this.gameObject.transform.position).normalized;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        Instantiate(bulletPrefab, this.gameObject.transform.position + Vector3.up * 3f, rotation);
+        currentShootInterval = 0.0f;
+    }
 
-        //         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime / 10);
-
-        //         transform.Translate(0, 0, speed * Time.deltaTime);
-        //     }
-        //     else
-        //     {
-        //         if (speed > 15f && speed < 25.0f)
-        //         {
-        //             speed -= 0.01f;
-        //         }
-
-
-        //         Vector3 direction = target.transform.position - this.gameObject.transform.position;
-
-        //         Quaternion toRotation = Quaternion.LookRotation(direction);
-        //         toRotation *= Quaternion.Euler(0, 85, 0);
-
-        //         transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime / 10);
-
-        //         transform.Translate(0, 0, speed * Time.deltaTime);
-        //     }
-
-        // }
-        // else
-        // {
-        //     Debug.LogWarning("No target assigned.");
-        // }
-
+    private void GetHit()
+    {
+        health -= 35;
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        speed = 5.0f;
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            GetHit();
+            Destroy(collision.gameObject);
+
+        }
     }
 }
