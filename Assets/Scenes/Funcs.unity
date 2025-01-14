@@ -920,7 +920,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 2943294187330575730, guid: 25fb0e0b8a5999a46bb88f87310060d4, type: 3}
-  spawnInterval: 50
+  - {fileID: 1237263089042501837, guid: 8385b0d34dac1194ba4d811b9e466164, type: 3}
+  - {fileID: 169244064678587550, guid: f1c416113b34eab449c2acfa333442cd, type: 3}
+  - {fileID: 5061042818586421239, guid: 832c75c01b2a9694d8a51f6b67712323, type: 3}
+  spawnInterval: 5
   spawnPoints:
   - {fileID: 1336254292}
   - {fileID: 1913707269}
