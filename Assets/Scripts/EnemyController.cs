@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public NavMeshAgent agent;
     public GameObject bulletPrefab;
 
+    public GameObject loot;
     private int health = 100;
     private float shootInterval = 2.0f;
     private float currentShootInterval = 2.0f;
@@ -62,6 +64,7 @@ public class EnemyController : MonoBehaviour
         health -= 35;
         if (health <= 0)
         {
+            Instantiate(loot, this.gameObject.transform.position + Vector3.up * 3f, this.gameObject.transform.rotation);
             Destroy(this.gameObject);
         }
     }
