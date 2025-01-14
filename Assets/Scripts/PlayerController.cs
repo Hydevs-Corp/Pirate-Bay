@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float baseVelocity = 0f;
     private float velocity = 0f;
 
+    public float score = 0f;
+
     public GameObject bulletPrefab;
 
     void Start()
@@ -117,5 +119,12 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Loot"))
+        {
+            score++;
+            Destroy(collision.gameObject);
+            print(score);
+
+        }
     }
 }
