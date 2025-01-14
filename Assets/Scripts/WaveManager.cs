@@ -10,21 +10,15 @@ public class WaveManager : MonoBehaviour
     public List<Transform> spawnPoints;
     public GameObject target;
 
+    private int enemiesAlive = 0;
+
     void Start()
     {
-        StartCoroutine(Spawner());
+        SpawnWave();
     }
 
-    IEnumerator Spawner()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(spawnInterval);
-            SpawnEnemy();
-        }
-    }
 
-    void SpawnEnemy()
+    void SpawnWave()
     {
         if (spawnPoints.Count == 0)
         {
@@ -46,9 +40,19 @@ public class WaveManager : MonoBehaviour
             GameObject enemyPrefab = enemyPrefabs[enemyIndex];
 
             GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-
+            enemiesAlive++;
             enemy.GetComponent<EnemyController>().target = target;
+
         }
         return;
+    }
+
+    public void EnemyDied()
+    {
+        enemiesAlive--;
+        if (enemiesAlive <= 0)
+        {
+            SpawnWave();
+        }
     }
 }
