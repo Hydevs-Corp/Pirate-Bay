@@ -8,7 +8,7 @@ public class LifeSystem : MonoBehaviour
     public int startHeart = 12;
     public int currentHealth;
     private int maxHealth;
-    private int healthPerHeart = 2;
+    private readonly int healthPerHeart = 2;
 
     public Image[] healthImages;
     public Sprite fullHeart;

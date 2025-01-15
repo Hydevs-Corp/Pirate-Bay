@@ -14,11 +14,9 @@ public class PlayerController : MonoBehaviour
     public float acceleration = 0.0f;
     public float rotationSpeed = 25.0f;
     public float score = 0f;
-    private float health = 100.0f;
 
     public GameObject bulletPrefab;
 
-    private GameObject healthText;
     private GameObject scoreText;
 
     private float shootInterval = 0.25f;
@@ -35,17 +33,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        healthText = GameObject.Find("HealthText");
         scoreText = GameObject.Find("ScoreText");
-        if (healthText)
-        {
-            healthText.GetComponent<TMP_Text>().text = "Health: " + health;
-            scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
-        }
-        else
-        {
-            Debug.LogWarning("No health text found.");
-        }
+        scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
     }
 
     void FixedUpdate()
@@ -167,7 +156,16 @@ public class PlayerController : MonoBehaviour
             currentShootIntervalMortar = 0.0f;
         }
     }
-
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Loot"))
+        {
+            Destroy(collision.gameObject);
+            score += 1;
+            scoreText.GetComponent<TMP_Text>().text = "" + score;
+            gameObject.GetComponent<LifeSystem>().Heal(1);
+        }
+    }
 
 
 }
