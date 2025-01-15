@@ -3765,6 +3765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a146ade5f99ba684299586a24b3a7c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveActive: 0
   enemyPrefabs:
   - {fileID: 2943294187330575730, guid: 25fb0e0b8a5999a46bb88f87310060d4, type: 3}
   - {fileID: 1237263089042501837, guid: 8385b0d34dac1194ba4d811b9e466164, type: 3}
@@ -5124,7 +5125,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -6117,7 +6118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5480577822606915484, guid: a63830d48d4e56041948c08202c39764, type: 3}
       propertyPath: speed
-      value: 25
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5480577822606915484, guid: a63830d48d4e56041948c08202c39764, type: 3}
       propertyPath: bulletPrefab

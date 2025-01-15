@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public bool waveActive = false;
     public List<GameObject> enemyPrefabs;
     public float spawnInterval = 50f;
 
@@ -17,7 +17,13 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        SpawnWave();
+        if (spawnPoints.Count == 0)
+        {
+            Debug.LogWarning("No spawn points assigned.");
+            return;
+        }
+        if (waveActive)
+            SpawnWave();
     }
 
 
