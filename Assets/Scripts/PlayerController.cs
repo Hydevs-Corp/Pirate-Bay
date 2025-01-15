@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         if (healthText)
         {
             healthText.GetComponent<TMP_Text>().text = "Health: " + health;
-            scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
+            scoreText.GetComponent<TMP_Text>().text = "" + score;
         }
         else
         {

@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class LifeSystem : MonoBehaviour
 {
-    private int maxHeart = 1;
-    public int startHeart = 1;
+    private int maxHeart = 6;
+    public int startHeart = 6;
     public int currentHealth;
     private int maxHealth;
     private int healthPerHeart = 2;
