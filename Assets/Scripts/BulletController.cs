@@ -8,14 +8,21 @@ public class BulletController : MonoBehaviour
 
     public int damage = 10;
 
+    void Start()
+    {
+        gameObject.GetComponent<ParticleSystem>().Stop();
+    }
+
     void Update()
     {
         this.gameObject.transform.position += this.gameObject.transform.forward * (speed * Time.deltaTime);
         this.gameObject.transform.position += Vector3.down * (Mathf.Exp(currentLifeTime * 2.5f) * Time.deltaTime);
         currentLifeTime += Time.deltaTime;
-        if (currentLifeTime >= lifeTime || this.gameObject.transform.position.y < 1.0f)
+        if (currentLifeTime >= lifeTime || this.gameObject.transform.position.y < 1.4f)
         {
-            Destroy(this.gameObject);
+            gameObject.GetComponent<ParticleSystem>().Play();
+            // Destroy(this.gameObject);
+
         }
     }
 

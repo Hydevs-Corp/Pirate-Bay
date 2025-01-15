@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 50.0f;
     public float acceleration = 0.0f;
     public float rotationSpeed = 25.0f;
-    public float score = 0f;
+    public int score = 0;
 
     public GameObject bulletPrefab;
 
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        GameObject plane = GameObject.Find("Plane");
+        GameObject plane = GameObject.Find("Sea");
         Ray ray;
         if (input == "mouse")
         {
@@ -162,6 +162,8 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(collision.gameObject);
             score += 1;
+            if (score > PlayerPrefs.GetInt("highscore", 0))
+                PlayerPrefs.SetInt("highscore", score);
             scoreText.GetComponent<TMP_Text>().text = "" + score;
             gameObject.GetComponent<LifeSystem>().Heal(1);
         }
