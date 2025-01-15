@@ -42,8 +42,8 @@ public class LifeSystem : MonoBehaviour
             gameObject.GetComponent<PlayerController>().enabled = false;
             print("Game Over");
             gameObject.GetComponent<ParticleSystem>().Play();
+            GameObject.Find("RestartButton").GetComponent<Button>().interactable = true;
             StartCoroutine(Die());
-
         }
     }
 
