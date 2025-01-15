@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class LifeSystem : MonoBehaviour
 {
-    private int maxHeart = 12;
-    public int startHeart = 12;
-    public int currentHealth;
+    private int maxHeart = 6;
+    private int startHeart = 6;
+    private int currentHealth;
     private int maxHealth;
     private readonly int healthPerHeart = 2;
 
@@ -107,12 +107,13 @@ public class LifeSystem : MonoBehaviour
         else if (collision.gameObject.CompareTag("Bullet")) { }
         else
         {
+            gameObject.GetComponent<PlayerController>().acceleration = -1;
             if (Time.time - lastTimeCollided < 3.0f)
             {
                 return;
             }
-            TakeDamage(1);
             lastTimeCollided = Time.time;
+            TakeDamage(1);
         }
     }
 }
