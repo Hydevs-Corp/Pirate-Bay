@@ -129,7 +129,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 25
-  baseVelocity: 0
+  maxSpeed: 50
+  acceleration: 0
+  rotationSpeed: 25
+  score: 0
   bulletPrefab: {fileID: 0}
 --- !u!54 &-3763562829758406682
 Rigidbody:
