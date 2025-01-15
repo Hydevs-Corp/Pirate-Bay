@@ -8,7 +8,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
-    public float speed = 25000.0f;
+    private readonly float speed = 10.0f;
+    public float maxSpeed = 1000.0f;
+    private float acceleration = 0.0f;
     public float rotationSpeed = 25.0f;
     public float score = 0f;
     private float health = 100.0f;
@@ -47,17 +49,24 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        GetHit(100);
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
-        if (vertical < 0)
+
+        if (vertical != 0)
         {
-            vertical /= 2;
+            acceleration += vertical * Time.fixedDeltaTime;
         }
-        Vector3 velocity = transform.forward * vertical * speed * Time.fixedDeltaTime;
+        else
+        {
+            acceleration = Mathf.Lerp(acceleration, 0, Time.fixedDeltaTime * 2);
+        }
+
+        acceleration = Mathf.Clamp(acceleration, -maxSpeed, maxSpeed);
+        Vector3 velocity = acceleration * speed * Time.fixedDeltaTime * transform.forward;
         velocity.y = rb.linearVelocity.y;
         rb.linearVelocity = velocity;
-        transform.Rotate(transform.up * horizontal * rotationSpeed * Time.fixedDeltaTime);
+
+        transform.Rotate(horizontal * rotationSpeed * Time.fixedDeltaTime * transform.up);
     }
 
     void Update()
@@ -167,7 +176,7 @@ public class PlayerController : MonoBehaviour
         {
 
             Destroy(gameObject);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Map");
+            // UnityEngine.SceneManagement.SceneManager.LoadScene("Map");
         }
     }
 
