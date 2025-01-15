@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,9 +9,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
-    private readonly float speed = 10.0f;
-    public float maxSpeed = 1000.0f;
-    private float acceleration = 0.0f;
+    public float speed = 1.0f;
+    public float maxSpeed = 50.0f;
+    public float acceleration = 0.0f;
     public float rotationSpeed = 25.0f;
     public float score = 0f;
     private float health = 100.0f;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private float vertical;
     private float horizontal;
     private Vector2 lastRightStickDirection = Vector2.zero;
+    private float lastTimeCollided = 0.0f;
 
     void Start()
     {
@@ -52,14 +54,29 @@ public class PlayerController : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
 
+        if (vertical > 0.2)
+        {
+            vertical = 1;
+        }
+        if (vertical < -0.2)
+        {
+            vertical = -1;
+        }
         if (vertical != 0)
         {
             acceleration += vertical * Time.fixedDeltaTime;
         }
         else
         {
+            if (acceleration < 0.1 && acceleration > -0.1)
+            {
+                acceleration = 0;
+            }
             acceleration = Mathf.Lerp(acceleration, 0, Time.fixedDeltaTime * 2);
         }
+
+        float rotationFactor = Mathf.Abs(horizontal);
+        acceleration *= 1 - rotationFactor * 0.01f;
 
         acceleration = Mathf.Clamp(acceleration, -maxSpeed, maxSpeed);
         Vector3 velocity = acceleration * speed * Time.fixedDeltaTime * transform.forward;
@@ -72,10 +89,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if (Gamepad.current.rightStick.ReadValue().magnitude > 0.1)
-        {
-            lastRightStickDirection = Gamepad.current.rightStick.ReadValue();
-        }
 
         if (currentShootIntervalLeft < shootInterval)
         {
@@ -90,51 +103,89 @@ public class PlayerController : MonoBehaviour
             currentShootIntervalMortar += Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) || Gamepad.current.rightTrigger.wasPressedThisFrame)
+        if (Gamepad.current != null)
         {
-            if (currentShootIntervalRight < shootInterval)
+            if (Gamepad.current.rightStick.ReadValue().magnitude > 0.1)
             {
-                return;
+                lastRightStickDirection = Gamepad.current.rightStick.ReadValue();
             }
-            Quaternion rotation = transform.rotation;
-            rotation *= Quaternion.Euler(0, 90, 0);
-            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
-            bullet.GetComponent<BulletController>().damage = 80.0f;
-            currentShootIntervalRight = 0.0f;
-        }
-        if (Input.GetKeyDown(KeyCode.Q) || Gamepad.current.leftTrigger.wasPressedThisFrame)
-        {
-            if (currentShootIntervalLeft < shootInterval)
-            {
-                return;
-            }
-            Quaternion rotation = transform.rotation;
-            rotation *= Quaternion.Euler(0, -90, 0);
-            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
-            bullet.GetComponent<BulletController>().damage = 80.0f;
-            currentShootIntervalLeft = 0.0f;
+            if (Gamepad.current.rightTrigger.wasPressedThisFrame) Shoot(90);
+            if (Gamepad.current.leftTrigger.wasPressedThisFrame) Shoot(-90);
+            if (Gamepad.current.rightShoulder.wasPressedThisFrame) ShootMortar("gamepad");
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || Gamepad.current.xButton.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.E)) Shoot(90);
+
+        if (Input.GetKeyDown(KeyCode.Q)) Shoot(-90);
+
+
+        if (Input.GetKeyDown(KeyCode.Space)) ShootMortar();
+
+        if (Input.GetMouseButtonDown(0))
         {
-            if (currentShootIntervalMortar < shootIntervalMortar)
-            {
-                return;
-            }
-            if (Gamepad.current.xButton.wasPressedThisFrame)
-            {
-                ShootMortar("gamepad");
-            }
-            else
-            {
-                ShootMortar();
-            }
+            RockingBoat(transform, 1);
+        }
+    }
+
+
+    void RockingBoat(Transform transform, float direction)
+    {
+        // the boat is rocking if he get hit by a bullet
+        // the boat will rock in direction of the bullet
+        // the boat will rock for 1 second
+        // the boat will rock 10 degrees
+        StartCoroutine(RockBoatCoroutine(transform, direction));
+
+    }
+
+    private IEnumerator RockBoatCoroutine(Transform transform, float direction)
+    {
+        float elapsedTime = 0.0f;
+        float duration = 1.0f;
+        float angle = 10.0f;
+
+        while (elapsedTime < duration)
+        {
+            float rockingAngle = Mathf.Sin(elapsedTime * Mathf.PI / duration) * angle * direction;
+            transform.rotation = Quaternion.Euler(rockingAngle, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
 
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
+        while (transform.rotation.eulerAngles.z < 0)
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + 1);
+            yield return null;
+        }
+        while (transform.rotation.eulerAngles.z > 0)
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z - 1);
+            yield return null;
+
+        }
+    }
+
+    private void Shoot(float direction)
+    {
+        if (currentShootIntervalLeft < shootInterval)
+        {
+            return;
+        }
+        Quaternion rotation = transform.rotation;
+        rotation *= Quaternion.Euler(0, direction, 0);
+        GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
+        bullet.GetComponent<BulletController>().damage = 80.0f;
+        currentShootIntervalLeft = 0.0f;
     }
 
     private void ShootMortar(String input = "mouse")
     {
+        if (currentShootIntervalMortar < shootIntervalMortar)
+        {
+            return;
+        }
         GameObject plane = GameObject.Find("Plane");
         Ray ray;
         if (input == "mouse")
@@ -149,7 +200,7 @@ public class PlayerController : MonoBehaviour
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 rotation *= Quaternion.Euler(-5, 0, 0);
                 GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
-                bullet.GetComponent<BulletController>().damage = 30.0f;
+                bullet.GetComponent<BulletController>().damage = 35.0f;
                 currentShootIntervalMortar = 0.0f;
             }
         }
@@ -176,9 +227,10 @@ public class PlayerController : MonoBehaviour
         {
 
             Destroy(gameObject);
-            // UnityEngine.SceneManagement.SceneManager.LoadScene("Map");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
         }
     }
+
 
     void OnCollisionEnter(Collision collision)
     {
@@ -186,11 +238,28 @@ public class PlayerController : MonoBehaviour
         {
             score++;
             scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
+            health += 15;
+            if (health > 100)
+            {
+                health = 100;
+            }
+            healthText.GetComponent<TMP_Text>().text = "Health: " + health;
             Destroy(collision.gameObject);
         }
-        if (collision.gameObject.CompareTag("EnemyBullet"))
+        else if (collision.gameObject.CompareTag("EnemyBullet"))
         {
             GetHit();
+        }
+        else if (collision.gameObject.CompareTag("Bullet")) { }
+        else
+        {
+            if (Time.time - lastTimeCollided < 3.0f)
+            {
+                return;
+            }
+            GetHit(5);
+            acceleration /= 10;
+            lastTimeCollided = Time.time;
         }
     }
 }
