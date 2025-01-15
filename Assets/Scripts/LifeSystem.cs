@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class LifeSystem : MonoBehaviour
 {
-    private int maxHeart = 6;
-    public int startHeart = 6;
+    private int maxHeart = 12;
+    public int startHeart = 12;
     public int currentHealth;
     private int maxHealth;
     private int healthPerHeart = 2;
@@ -35,6 +35,7 @@ public class LifeSystem : MonoBehaviour
         UpdateHealthUI();
         if (currentHealth == 0)
         {
+            gameObject.GetComponent<PlayerController>().enabled = false;
             StartCoroutine(Die());
 
         }
