@@ -22,20 +22,26 @@ public class LifeSystem : MonoBehaviour
         currentHealth = startHeart * healthPerHeart;
         maxHealth = maxHeart * healthPerHeart;
         UpdateHealthUI();
+        gameObject.GetComponent<ParticleSystem>().Stop();
+
     }
 
     public void TakeDamage(int damage)
     {
         if (currentHealth == 0)
         {
+            print("Game alr Over");
             return;
         }
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUI();
+        print("HEALTH " + currentHealth);
         if (currentHealth == 0)
         {
             gameObject.GetComponent<PlayerController>().enabled = false;
+            print("Game Over");
+            gameObject.GetComponent<ParticleSystem>().Play();
             StartCoroutine(Die());
 
         }
@@ -108,7 +114,7 @@ public class LifeSystem : MonoBehaviour
         else
         {
             gameObject.GetComponent<PlayerController>().acceleration = -1;
-            if (Time.time - lastTimeCollided < 3.0f)
+            if (Time.time - lastTimeCollided < 1.5f)
             {
                 return;
             }
