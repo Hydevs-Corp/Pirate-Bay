@@ -121,50 +121,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space)) ShootMortar();
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            RockingBoat(transform, 1);
-        }
-    }
-
-
-    void RockingBoat(Transform transform, float direction)
-    {
-        // the boat is rocking if he get hit by a bullet
-        // the boat will rock in direction of the bullet
-        // the boat will rock for 1 second
-        // the boat will rock 10 degrees
-        StartCoroutine(RockBoatCoroutine(transform, direction));
-
-    }
-
-    private IEnumerator RockBoatCoroutine(Transform transform, float direction)
-    {
-        float elapsedTime = 0.0f;
-        float duration = 1.0f;
-        float angle = 10.0f;
-
-        while (elapsedTime < duration)
-        {
-            float rockingAngle = Mathf.Sin(elapsedTime * Mathf.PI / duration) * angle * direction;
-            transform.rotation = Quaternion.Euler(rockingAngle, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-
-        while (transform.rotation.eulerAngles.z < 0)
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + 1);
-            yield return null;
-        }
-        while (transform.rotation.eulerAngles.z > 0)
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z - 1);
-            yield return null;
-
-        }
     }
 
     private void Shoot(float direction)
@@ -231,7 +187,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Loot"))
@@ -248,7 +203,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("EnemyBullet"))
         {
-            GetHit();
+            GetHit(collision.gameObject.GetComponent<BulletController>().damage);
+            Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Bullet")) { }
         else
