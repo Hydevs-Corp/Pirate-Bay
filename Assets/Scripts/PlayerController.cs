@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody>();
         scoreText = GameObject.Find("ScoreText");
-        scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
+        scoreText.GetComponent<TMP_Text>().text = "" + score;
     }
 
     void FixedUpdate()
