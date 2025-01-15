@@ -6,7 +6,7 @@ public class BulletController : MonoBehaviour
     float lifeTime = 2.0f;
     float currentLifeTime = 0.0f;
 
-    public float damage = 10.0f;
+    public int damage = 10;
 
     void Update()
     {

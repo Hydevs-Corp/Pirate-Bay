@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LifeSystem : MonoBehaviour
 {
-    private int maxHeart = 6;
-    public int startHeart = 6;
+    private int maxHeart = 1;
+    public int startHeart = 1;
     public int currentHealth;
     private int maxHealth;
     private int healthPerHeart = 2;
@@ -13,6 +14,8 @@ public class LifeSystem : MonoBehaviour
     public Sprite fullHeart;
     public Sprite halfHeart;
     public Sprite emptyHeart;
+
+    private float lastTimeCollided = 0.0f;
 
     void Start()
     {
@@ -23,9 +26,32 @@ public class LifeSystem : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (currentHealth == 0)
+        {
+            return;
+        }
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUI();
+        if (currentHealth == 0)
+        {
+            StartCoroutine(Die());
+
+        }
+    }
+
+    IEnumerator Die()
+    {
+        float elapsedTime = 0;
+        float waitTime = 1.5f;
+        while (elapsedTime < waitTime)
+        {
+            transform.Rotate(0, 0, 45 * (Time.deltaTime / waitTime));
+            transform.Translate(0, -0.5f * (Time.deltaTime / waitTime), 0);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
     }
 
     public void Heal(int amount)
@@ -62,6 +88,30 @@ public class LifeSystem : MonoBehaviour
             {
                 healthImages[i].enabled = false;
             }
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Loot"))
+        {
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            TakeDamage(collision.gameObject.GetComponent<BulletController>().damage);
+
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Bullet")) { }
+        else
+        {
+            if (Time.time - lastTimeCollided < 3.0f)
+            {
+                return;
+            }
+            TakeDamage(1);
+            lastTimeCollided = Time.time;
         }
     }
 }

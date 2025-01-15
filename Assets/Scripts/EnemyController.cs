@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public GameObject bulletPrefab;
 
     public GameObject loot;
-    private float health = 100;
+    private int health = 6;
     private float shootInterval = 2.0f;
     private float currentShootInterval = 2.0f;
 
@@ -53,16 +53,16 @@ public class EnemyController : MonoBehaviour
             currentShootInterval += Time.deltaTime;
             return;
         }
-        Vector3 direction = (target.transform.position + (target.transform.forward * 5f) - this.gameObject.transform.position).normalized;
+        Vector3 direction = (target.transform.position + (target.transform.forward * 3f) - this.gameObject.transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
         rotation *= Quaternion.Euler(-6, 0, 0);
         GameObject bullet = Instantiate(bulletPrefab, this.gameObject.transform.position + Vector3.up * 3f, rotation);
         bullet.GetComponent<BulletController>().speed = 40.0f;
-        bullet.GetComponent<BulletController>().damage = 10.0f;
+        bullet.GetComponent<BulletController>().damage = 1;
         currentShootInterval = 0.0f;
     }
 
-    private void GetHit(float damage = 35)
+    private void GetHit(int damage = 1)
     {
         health -= damage;
         if (health <= 0)

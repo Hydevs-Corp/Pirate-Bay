@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
     private float vertical;
     private float horizontal;
     private Vector2 lastRightStickDirection = Vector2.zero;
-    private float lastTimeCollided = 0.0f;
 
     void Start()
     {
@@ -132,7 +131,7 @@ public class PlayerController : MonoBehaviour
         Quaternion rotation = transform.rotation;
         rotation *= Quaternion.Euler(0, direction, 0);
         GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
-        bullet.GetComponent<BulletController>().damage = 80.0f;
+        bullet.GetComponent<BulletController>().damage = 1;
         currentShootIntervalLeft = 0.0f;
     }
 
@@ -156,7 +155,7 @@ public class PlayerController : MonoBehaviour
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 rotation *= Quaternion.Euler(-5, 0, 0);
                 GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
-                bullet.GetComponent<BulletController>().damage = 35.0f;
+                bullet.GetComponent<BulletController>().damage = 2;
                 currentShootIntervalMortar = 0.0f;
             }
         }
@@ -166,56 +165,11 @@ public class PlayerController : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(rightStickDirection);
             rotation *= Quaternion.Euler(-5, gameObject.transform.rotation.y, 0);
             GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
-            bullet.GetComponent<BulletController>().damage = 30.0f;
+            bullet.GetComponent<BulletController>().damage = 2;
             currentShootIntervalMortar = 0.0f;
         }
     }
 
-    private void GetHit(float damage = 35)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            health = 0;
-        }
-        healthText.GetComponent<TMP_Text>().text = "Health: " + health;
-        if (health <= 0)
-        {
 
-            Destroy(gameObject);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
-        }
-    }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Loot"))
-        {
-            score++;
-            scoreText.GetComponent<TMP_Text>().text = "Score: " + score;
-            health += 15;
-            if (health > 100)
-            {
-                health = 100;
-            }
-            healthText.GetComponent<TMP_Text>().text = "Health: " + health;
-            Destroy(collision.gameObject);
-        }
-        else if (collision.gameObject.CompareTag("EnemyBullet"))
-        {
-            GetHit(collision.gameObject.GetComponent<BulletController>().damage);
-            Destroy(collision.gameObject);
-        }
-        else if (collision.gameObject.CompareTag("Bullet")) { }
-        else
-        {
-            if (Time.time - lastTimeCollided < 3.0f)
-            {
-                return;
-            }
-            GetHit(5);
-            acceleration /= 10;
-            lastTimeCollided = Time.time;
-        }
-    }
 }
