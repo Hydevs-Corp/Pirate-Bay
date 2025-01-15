@@ -87,8 +87,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
-
         if (currentShootIntervalLeft < shootInterval)
         {
             currentShootIntervalLeft += Time.deltaTime;
