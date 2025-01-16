@@ -15,6 +15,8 @@ public class LifeSystem : MonoBehaviour
     public Sprite halfHeart;
     public Sprite emptyHeart;
 
+    [Header("LifeWarning")]
+    [SerializeField] private Image Warning = null;
     private float lastTimeCollided = 0.0f;
 
     void Start()
@@ -94,6 +96,14 @@ public class LifeSystem : MonoBehaviour
             else
             {
                 healthImages[i].enabled = false;
+            }
+            if (currentHealth < 2)
+            {
+                Warning.enabled = true;
+            }
+            else
+            {
+                Warning.enabled = false;
             }
         }
     }
