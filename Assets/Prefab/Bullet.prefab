@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 75
+  WaterDropPrefab: {fileID: 4462495039236771036, guid: e097fdc498ed4d940a015f9e3a91c5a7, type: 3}
   damage: 10
 --- !u!96 &1291168964519696526
 TrailRenderer:
