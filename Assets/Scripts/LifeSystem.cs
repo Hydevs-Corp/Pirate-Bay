@@ -32,17 +32,14 @@ public class LifeSystem : MonoBehaviour
     {
         if (currentHealth == 0)
         {
-            print("Game alr Over");
             return;
         }
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateHealthUI();
-        print("HEALTH " + currentHealth);
         if (currentHealth == 0)
         {
             gameObject.GetComponent<PlayerController>().enabled = false;
-            print("Game Over");
             gameObject.GetComponent<ParticleSystem>().Play();
             GameObject.Find("RestartButton").GetComponent<Button>().interactable = true;
             StartCoroutine(Die());
