@@ -21,6 +21,10 @@ public class LifeSystem : MonoBehaviour
     private GameObject vignette;
     private GameObject DeathText;
 
+    private GameObject Restart;
+    private GameObject MainMenu;
+    private GameObject Quit;
+
     void Start()
     {
         currentHealth = startHeart * healthPerHeart;
@@ -29,7 +33,13 @@ public class LifeSystem : MonoBehaviour
         gameObject.GetComponent<ParticleSystem>().Stop();
         vignette = GameObject.Find("Vignette");
         DeathText = GameObject.Find("DEATH");
+        Restart = GameObject.Find("Restart");
+        MainMenu = GameObject.Find("MainMenu");
+        Quit = GameObject.Find("Quit");
         vignette.SetActive(false);
+        Restart.SetActive(false);
+        MainMenu.SetActive(false);
+        Quit.SetActive(false);
 
     }
 
@@ -48,6 +58,12 @@ public class LifeSystem : MonoBehaviour
             gameObject.GetComponent<ParticleSystem>().Play();
             StartCoroutine(Die());
             DeathText.GetComponent<TMP_Text>().text = "Your ship has been destroyed"; //+ at wave nananinanana;
+            if (Restart)
+                Restart.SetActive(true);
+            if (MainMenu)
+                MainMenu.SetActive(true);
+            if (Quit)
+                Quit.SetActive(true);
         }
     }
 
