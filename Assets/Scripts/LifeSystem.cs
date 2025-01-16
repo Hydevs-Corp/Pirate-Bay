@@ -16,15 +16,16 @@ public class LifeSystem : MonoBehaviour
     public Sprite emptyHeart;
 
     [Header("LifeWarning")]
-    [SerializeField] private Image Warning = null;
     private float lastTimeCollided = 0.0f;
-
+    private GameObject vignette;
     void Start()
     {
         currentHealth = startHeart * healthPerHeart;
         maxHealth = maxHeart * healthPerHeart;
         UpdateHealthUI();
         gameObject.GetComponent<ParticleSystem>().Stop();
+        vignette = GameObject.Find("Vignette");
+        vignette.SetActive(false);
 
     }
 
@@ -69,6 +70,16 @@ public class LifeSystem : MonoBehaviour
 
     void UpdateHealthUI()
     {
+        if (currentHealth < 5)
+        {
+            if (vignette)
+                vignette.SetActive(true);
+        }
+        else
+        {
+            if (vignette)
+                vignette.SetActive(false);
+        }
         for (int i = 0; i < maxHeart; i++)
         {
             if (i < startHeart)
@@ -93,14 +104,6 @@ public class LifeSystem : MonoBehaviour
             else
             {
                 healthImages[i].enabled = false;
-            }
-            if (currentHealth < 2)
-            {
-                Warning.enabled = true;
-            }
-            else
-            {
-                Warning.enabled = false;
             }
         }
     }
