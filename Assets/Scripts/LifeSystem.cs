@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ public class LifeSystem : MonoBehaviour
     [Header("LifeWarning")]
     private float lastTimeCollided = 0.0f;
     private GameObject vignette;
+    private GameObject DeathText;
+
     void Start()
     {
         currentHealth = startHeart * healthPerHeart;
@@ -25,6 +28,7 @@ public class LifeSystem : MonoBehaviour
         UpdateHealthUI();
         gameObject.GetComponent<ParticleSystem>().Stop();
         vignette = GameObject.Find("Vignette");
+        DeathText = GameObject.Find("DEATH");
         vignette.SetActive(false);
 
     }
@@ -43,6 +47,7 @@ public class LifeSystem : MonoBehaviour
             gameObject.GetComponent<PlayerController>().enabled = false;
             gameObject.GetComponent<ParticleSystem>().Play();
             StartCoroutine(Die());
+            DeathText.GetComponent<TMP_Text>().text = "Your ship has been destroyed"; //+ at wave nananinanana;
         }
     }
 
