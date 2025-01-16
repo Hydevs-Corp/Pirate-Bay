@@ -1144,7 +1144,7 @@ Camera:
   far clip plane: 1000
   field of view: 50
   orthographic: 1
-  orthographic size: 125
+  orthographic size: 150
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -2120,17 +2120,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613554066}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.5, y: 5.5, z: 5.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1876974151}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -365.27, y: 196.52}
-  m_SizeDelta: {x: 16, y: 16}
+  m_SizeDelta: {x: 8, y: 6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &613554068
 MonoBehaviour:
@@ -2152,7 +2152,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9ccfb0e5e3428f34986f90b2a4ef9258, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 50a54d1ca31339f40982d0d9bc74bc26, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4682,7 +4682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a146ade5f99ba684299586a24b3a7c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveActive: 1
+  waveActive: 0
   enemyPrefabs:
   - {fileID: 2943294187330575730, guid: 25fb0e0b8a5999a46bb88f87310060d4, type: 3}
   - {fileID: 1237263089042501837, guid: 8385b0d34dac1194ba4d811b9e466164, type: 3}
@@ -7150,8 +7150,8 @@ MonoBehaviour:
   - {fileID: 78165994}
   - {fileID: 1592824702}
   - {fileID: 972360258}
-  fullHeart: {fileID: 21300000, guid: 8bd78df09b5faca49bcc497074100ead, type: 3}
-  halfHeart: {fileID: 21300000, guid: eda6969e08b2a774caa4900161a5e2b4, type: 3}
+  fullHeart: {fileID: 21300000, guid: c8949ec4b920dab4eb9deb6257ca488c, type: 3}
+  halfHeart: {fileID: 21300000, guid: a32727cdb768221479a23e6c6b50fec4, type: 3}
   emptyHeart: {fileID: 21300000, guid: 889ca52d23aad1342af9e4397a084cd9, type: 3}
 --- !u!199 &2129556661
 ParticleSystemRenderer:
@@ -12056,6 +12056,18 @@ PrefabInstance:
     - target: {fileID: 6813025130300067904, guid: 13096aca25634674aba9e846b643a86e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707149001547289832, guid: 13096aca25634674aba9e846b643a86e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.88508
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707149001547289832, guid: 13096aca25634674aba9e846b643a86e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.88508
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707149001547289832, guid: 13096aca25634674aba9e846b643a86e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.88508
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
