@@ -81,7 +81,9 @@ public class EnemyController : MonoBehaviour
 
             GetHit(collision.gameObject.GetComponent<BulletController>().damage);
             Destroy(collision.gameObject);
-
+            return;
         }
+        if (collision.gameObject.CompareTag("Player"))
+            GetHit(1);
     }
 }

@@ -72,9 +72,10 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = velocity;
 
         float rotationModifier = acceleration;
-        if (rotationModifier < 0.3f)
+        if (Mathf.Abs(rotationModifier) < 0.3f)
         {
-            rotationModifier = 0.3f;
+            // rotationModifier = 0.3f;
+            rotationModifier = 1f;
         }
 
         transform.Rotate(horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up);

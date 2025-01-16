@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -16,9 +17,15 @@ public class WaveManager : MonoBehaviour
     private int enemiesAlive = 0;
 
     private int waveNumber = 0;
+    private GameObject NewWave;
+    private GameObject WaveText;
 
     void Start()
     {
+
+        WaveText = GameObject.Find("WaveText");
+        NewWave = GameObject.Find("NewWave");
+        NewWave.GetComponent<CanvasGroup>().alpha = 0;
         if (spawnPoints.Count == 0)
         {
             Debug.LogWarning("No spawn points assigned.");
@@ -26,12 +33,20 @@ public class WaveManager : MonoBehaviour
         }
         if (waveActive)
             SpawnWave();
+
     }
 
 
     void SpawnWave()
     {
+
         waveNumber++;
+        WaveText.GetComponent<TMP_Text>().text = "Wave " + waveNumber + " is comming...";
+        StartCoroutine(DisplayNewWaveText());
+    }
+
+    void SpawnEnemies()
+    {
         if (spawnPoints.Count == 0)
         {
             Debug.LogWarning("No spawn points assigned.");
@@ -63,6 +78,31 @@ public class WaveManager : MonoBehaviour
 
         }
         return;
+    }
+
+    IEnumerator DisplayNewWaveText()
+    {
+        CanvasGroup canvasGroup = NewWave.GetComponent<CanvasGroup>();
+        float duration = 1f;
+
+        // Fade in
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            canvasGroup.alpha = Mathf.Lerp(0, 1, t / duration);
+            yield return null;
+        }
+        canvasGroup.alpha = 1;
+
+        yield return new WaitForSeconds(2);
+
+        // Fade out
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            canvasGroup.alpha = Mathf.Lerp(1, 0, t / duration);
+            yield return null;
+        }
+        canvasGroup.alpha = 0;
+        SpawnEnemies();
     }
 
     public void EnemyDied()
