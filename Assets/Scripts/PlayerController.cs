@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         }
 
         float rotationFactor = Mathf.Abs(horizontal);
-        acceleration *= 1 - rotationFactor * 0.02f;
+        acceleration *= 1 - rotationFactor * 0.015f;
 
         acceleration = Mathf.Clamp(acceleration, -maxSpeed / 2, maxSpeed);
         Vector3 velocity = acceleration * speed * Time.fixedDeltaTime * transform.forward;

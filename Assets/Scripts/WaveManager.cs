@@ -41,7 +41,7 @@ public class WaveManager : MonoBehaviour
     {
 
         waveNumber++;
-        WaveText.GetComponent<TMP_Text>().text = "Wave " + waveNumber + " is comming...";
+        WaveText.GetComponent<TMP_Text>().text = "Wave " + waveNumber + " is coming...";
         StartCoroutine(DisplayNewWaveText());
     }
 
@@ -59,7 +59,7 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < waveNumber * 1.51f; i++)
+        for (int i = 0; i < waveNumber * 3f; i++)
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
