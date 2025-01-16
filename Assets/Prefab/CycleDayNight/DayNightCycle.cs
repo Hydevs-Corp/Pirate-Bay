@@ -20,15 +20,15 @@ public class SunScript : MonoBehaviour
         // Adjust the light's intensity based on the time of day
         if (time <= 0.23f || time >= 0.75f)
         {
-            directionalLight.intensity = 0;
+            directionalLight.intensity = 0.1f;
         }
         else if (time <= 0.25f)
         {
-            directionalLight.intensity = Mathf.Lerp(0, 1, (time - 0.23f) * 50);
+            directionalLight.intensity = Mathf.Lerp(0.1f, 1, (time - 0.23f) * 50);
         }
         else if (time >= 0.73f)
         {
-            directionalLight.intensity = Mathf.Lerp(1, 0, (time - 0.73f) * 50);
+            directionalLight.intensity = Mathf.Lerp(1, 0.1f, (time - 0.73f) * 50);
         }
         else
         {
