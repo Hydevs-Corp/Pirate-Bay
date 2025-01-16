@@ -16,26 +16,31 @@ public class BulletController : MonoBehaviour
         currentLifeTime += Time.deltaTime;
         if (currentLifeTime >= lifeTime || this.gameObject.transform.position.y < 1.4f)
         {
-            Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity);
+            Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity * Quaternion.Euler(-90, 0, 0));
             Destroy(this.gameObject);
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
+
+        if (collision.gameObject.CompareTag("Bullet")) return;
+        if (collision.gameObject.CompareTag("EnemyBullet")) return;
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if (gameObject.CompareTag("Bullet")) Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity);
+            if (gameObject.CompareTag("Bullet"))
+                Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity * Quaternion.Euler(-90, 0, 0));
             return;
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (gameObject.CompareTag("EnemyBullet")) Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity);
+            if (gameObject.CompareTag("EnemyBullet"))
+                Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity * Quaternion.Euler(-90, 0, 0));
             return;
         }
         ;
         if (collision.gameObject.name == "Sea") return;
-        Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity);
+        Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity * Quaternion.Euler(-90, 0, 0));
         Destroy(this.gameObject);
     }
 }

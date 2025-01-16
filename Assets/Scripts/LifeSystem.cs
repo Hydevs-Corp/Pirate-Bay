@@ -142,7 +142,7 @@ public class LifeSystem : MonoBehaviour
         else if (collision.gameObject.CompareTag("Bullet")) { }
         else
         {
-            gameObject.GetComponent<PlayerController>().acceleration = -1;
+            gameObject.GetComponent<PlayerController>().acceleration *= -1;
             if (Time.time - lastTimeCollided < 1.5f)
             {
                 return;

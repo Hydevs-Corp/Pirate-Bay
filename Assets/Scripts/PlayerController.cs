@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
         }
         if (vertical < -0.2)
         {
-            vertical = -1;
+            vertical = -0.5f;
         }
         if (vertical != 0)
         {
@@ -64,14 +64,20 @@ public class PlayerController : MonoBehaviour
         }
 
         float rotationFactor = Mathf.Abs(horizontal);
-        acceleration *= 1 - rotationFactor * 0.01f;
+        acceleration *= 1 - rotationFactor * 0.02f;
 
-        acceleration = Mathf.Clamp(acceleration, -maxSpeed, maxSpeed);
+        acceleration = Mathf.Clamp(acceleration, -maxSpeed / 2, maxSpeed);
         Vector3 velocity = acceleration * speed * Time.fixedDeltaTime * transform.forward;
         velocity.y = rb.linearVelocity.y;
         rb.linearVelocity = velocity;
 
-        transform.Rotate(horizontal * rotationSpeed * Time.fixedDeltaTime * transform.up);
+        float rotationModifier = acceleration;
+        if (rotationModifier < 0.3f)
+        {
+            rotationModifier = 0.3f;
+        }
+
+        transform.Rotate(horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up);
     }
 
     void Update()
@@ -95,35 +101,50 @@ public class PlayerController : MonoBehaviour
             {
                 lastRightStickDirection = Gamepad.current.rightStick.ReadValue();
             }
-            if (Gamepad.current.rightTrigger.wasPressedThisFrame) Shoot(90);
-            if (Gamepad.current.leftTrigger.wasPressedThisFrame) Shoot(-90);
+            if (Gamepad.current.rightTrigger.wasPressedThisFrame)
+            {
+                if (currentShootIntervalLeft < shootInterval)
+                {
+                    return;
+                }
+                Shoot(90);
+                Shoot(-90);
+                currentShootIntervalLeft = 0.0f;
+            }
             if (Gamepad.current.rightShoulder.wasPressedThisFrame) ShootMortar("gamepad");
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) Shoot(90);
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+
+            if (currentShootIntervalLeft < shootInterval)
+            {
+                return;
+            }
+            Shoot(90);
+            Shoot(-90);
+            currentShootIntervalLeft = 0.0f;
+        }
 
 
-        if (Input.GetKeyDown(KeyCode.Q)) Shoot(-90);
+        if (Input.GetKeyDown(KeyCode.Mouse0)) ShootMortar();
 
-
-        if (Input.GetKeyDown(KeyCode.Space)) ShootMortar();
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            gameObject.GetComponent<LifeSystem>().TakeDamage(1);
+        }
 
     }
 
     private void Shoot(float direction)
     {
-        if (currentShootIntervalLeft < shootInterval)
-        {
-            return;
-        }
         Quaternion rotation = transform.rotation;
         rotation *= Quaternion.Euler(0, direction, 0);
         GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
         bullet.GetComponent<BulletController>().damage = 1;
-        currentShootIntervalLeft = 0.0f;
     }
 
-    private void ShootMortar(String input = "mouse")
+    private void ShootMortar(string input = "mouse")
     {
         if (currentShootIntervalMortar < shootIntervalMortar)
         {
