@@ -15,6 +15,8 @@ public class WaveManager : MonoBehaviour
 
     private int enemiesAlive = 0;
 
+    private int waveNumber = 0;
+
     void Start()
     {
         if (spawnPoints.Count == 0)
@@ -29,6 +31,7 @@ public class WaveManager : MonoBehaviour
 
     void SpawnWave()
     {
+        waveNumber++;
         if (spawnPoints.Count == 0)
         {
             Debug.LogWarning("No spawn points assigned.");
@@ -41,9 +44,9 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < spawnPoints.Count; i++)
+        for (int i = 0; i < waveNumber * 1.51f; i++)
         {
-            Transform spawnPoint = spawnPoints[i];
+            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
             int enemyIndex = Random.Range(0, enemyPrefabs.Count);
             GameObject enemyPrefab = enemyPrefabs[enemyIndex];
@@ -65,6 +68,7 @@ public class WaveManager : MonoBehaviour
     public void EnemyDied()
     {
         enemiesAlive--;
+        print("Enemies alive: " + enemiesAlive);
         if (enemiesAlive <= 0)
         {
             SpawnWave();
