@@ -20,13 +20,13 @@ public class EnemyController : MonoBehaviour
         if (agent && target)
         {
 
-            float distance = Vector3.Distance(this.gameObject.transform.position, target.transform.position);
+            float distance = Vector3.Distance(gameObject.transform.position, target.transform.position);
 
             Vector3 left = target.transform.position + target.transform.forward * 20f;
-            float distanceToLeft = Vector3.Distance(this.gameObject.transform.position, left);
+            float distanceToLeft = Vector3.Distance(gameObject.transform.position, left);
 
             Vector3 right = target.transform.position + target.transform.right * 20f;
-            float distanceToRight = Vector3.Distance(this.gameObject.transform.position, right);
+            float distanceToRight = Vector3.Distance(gameObject.transform.position, right);
 
 
             if (distanceToLeft < distanceToRight)
@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
                 agent.SetDestination(right);
             }
 
-            if (distanceToLeft < 20f || distanceToRight < 20f || distance < 20f)
+            if (distanceToLeft < 40f || distanceToRight < 40f || distance < 40f)
             {
                 Shoot();
             }
@@ -53,10 +53,10 @@ public class EnemyController : MonoBehaviour
             currentShootInterval += Time.deltaTime;
             return;
         }
-        Vector3 direction = (target.transform.position + (target.transform.forward * 3f) - this.gameObject.transform.position).normalized;
+        Vector3 direction = (target.transform.position + (target.transform.forward * 3f) - gameObject.transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
         rotation *= Quaternion.Euler(-6, 0, 0);
-        GameObject bullet = Instantiate(bulletPrefab, this.gameObject.transform.position + Vector3.up * 3f, rotation);
+        GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position + Vector3.up * 3f, rotation);
         bullet.GetComponent<BulletController>().speed = 40.0f;
         bullet.GetComponent<BulletController>().damage = 1;
         currentShootInterval = 0.0f;
@@ -68,7 +68,7 @@ public class EnemyController : MonoBehaviour
         if (health <= 0)
         {
             if (loot)
-                Instantiate(loot, this.gameObject.transform.position + Vector3.up * 1f, this.gameObject.transform.rotation);
+                Instantiate(loot, gameObject.transform.position + Vector3.up * 1f, gameObject.transform.rotation);
             GameObject.Find("Spawner").GetComponent<WaveManager>().EnemyDied();
             Destroy(this.gameObject);
         }

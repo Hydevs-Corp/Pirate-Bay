@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private GameObject scoreText;
 
     private float shootInterval = 0.25f;
-    private float shootIntervalMortar = 0.9f;
+    private float shootIntervalMortar = 0.35f;
     private float currentShootIntervalLeft = 2.0f;
     private float currentShootIntervalRight = 2.0f;
     private float currentShootIntervalMortar = 2.0f;
@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
         float rotationModifier = acceleration;
         if (Mathf.Abs(rotationModifier) < 0.3f)
         {
-            // rotationModifier = 0.3f;
             rotationModifier = 1f;
         }
 
@@ -102,7 +101,7 @@ public class PlayerController : MonoBehaviour
             {
                 lastRightStickDirection = Gamepad.current.rightStick.ReadValue();
             }
-            if (Gamepad.current.rightTrigger.wasPressedThisFrame)
+            if (Gamepad.current.leftTrigger.wasPressedThisFrame)
             {
                 if (currentShootIntervalLeft < shootInterval)
                 {
@@ -112,7 +111,7 @@ public class PlayerController : MonoBehaviour
                 Shoot(-90);
                 currentShootIntervalLeft = 0.0f;
             }
-            if (Gamepad.current.rightShoulder.wasPressedThisFrame) ShootMortar("gamepad");
+            if (Gamepad.current.rightTrigger.wasPressedThisFrame) ShootMortar("gamepad");
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -173,7 +172,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 rightStickDirection = new(lastRightStickDirection.x, 0, lastRightStickDirection.y);
             Quaternion rotation = Quaternion.LookRotation(rightStickDirection);
-            rotation *= Quaternion.Euler(-5, gameObject.transform.rotation.y, 0);
+            rotation *= Quaternion.Euler(-5, gameObject.transform.rotation.eulerAngles.y, 0);
             GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
             bullet.GetComponent<BulletController>().damage = 2;
             currentShootIntervalMortar = 0.0f;
