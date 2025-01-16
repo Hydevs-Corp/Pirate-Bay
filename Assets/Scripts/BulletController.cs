@@ -28,7 +28,12 @@ public class BulletController : MonoBehaviour
             if (gameObject.CompareTag("Bullet")) Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity);
             return;
         }
-        if (collision.gameObject.CompareTag("Player")) return;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (gameObject.CompareTag("EnemyBullet")) Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity);
+            return;
+        }
+        ;
         if (collision.gameObject.name == "Sea") return;
         Instantiate(WaterDropPrefab, this.gameObject.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
