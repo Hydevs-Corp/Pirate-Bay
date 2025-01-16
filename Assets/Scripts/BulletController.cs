@@ -20,9 +20,7 @@ public class BulletController : MonoBehaviour
         currentLifeTime += Time.deltaTime;
         if (currentLifeTime >= lifeTime || this.gameObject.transform.position.y < 1.4f)
         {
-            gameObject.GetComponent<ParticleSystem>().Play();
-            // Destroy(this.gameObject);
-
+            Destroy(this.gameObject);
         }
     }
 

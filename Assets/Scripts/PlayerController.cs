@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E)) Shoot(90);
 
+
         if (Input.GetKeyDown(KeyCode.Q)) Shoot(-90);
 
 
@@ -168,6 +169,4 @@ public class PlayerController : MonoBehaviour
             gameObject.GetComponent<LifeSystem>().Heal(1);
         }
     }
-
-
 }
