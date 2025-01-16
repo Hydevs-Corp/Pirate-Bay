@@ -3306,7 +3306,7 @@ GameObject:
   - component: {fileID: 551514949}
   - component: {fileID: 551514948}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Vignette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6533,7 +6533,7 @@ GameObject:
   - component: {fileID: 1127880636}
   - component: {fileID: 1127880635}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: DEATH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6578,7 +6578,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Your ship has been destroyed
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b4212a7248df23c47afb9fa040436330, type: 2}
   m_sharedMaterial: {fileID: 7671145255337255101, guid: b4212a7248df23c47afb9fa040436330, type: 2}
