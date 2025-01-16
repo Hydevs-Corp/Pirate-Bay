@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 rightStickDirection = new(lastRightStickDirection.x, 0, lastRightStickDirection.y);
             Quaternion rotation = Quaternion.LookRotation(rightStickDirection);
-            rotation *= Quaternion.Euler(-5, gameObject.transform.rotation.eulerAngles.eulerAngles.y, 0);
+            rotation *= Quaternion.Euler(-5, gameObject.transform.rotation.eulerAngles.y, 0);
             GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
             bullet.GetComponent<BulletController>().damage = 2;
             currentShootIntervalMortar = 0.0f;
