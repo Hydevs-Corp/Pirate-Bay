@@ -42,7 +42,6 @@ public class LifeSystem : MonoBehaviour
         {
             gameObject.GetComponent<PlayerController>().enabled = false;
             gameObject.GetComponent<ParticleSystem>().Play();
-            GameObject.Find("RestartButton").GetComponent<Button>().interactable = true;
             StartCoroutine(Die());
         }
     }
@@ -58,7 +57,6 @@ public class LifeSystem : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
     }
 
     public void Heal(int amount)
