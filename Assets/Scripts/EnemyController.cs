@@ -55,9 +55,10 @@ public class EnemyController : MonoBehaviour
         }
         Vector3 direction = (target.transform.position + (target.transform.forward * 3f) - gameObject.transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
-        rotation *= Quaternion.Euler(-6, 0, 0);
+        rotation *= Quaternion.Euler(-3, 0, 0);
         GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position + Vector3.up * 3f, rotation);
-        bullet.GetComponent<BulletController>().speed = 40.0f;
+        float distance = Vector3.Distance(gameObject.transform.position, target.transform.position);
+        bullet.GetComponent<BulletController>().speed = Mathf.Clamp(distance, 20.0f, 40.0f) * 2;
         bullet.GetComponent<BulletController>().damage = 1;
         currentShootInterval = 0.0f;
     }

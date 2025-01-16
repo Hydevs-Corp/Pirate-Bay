@@ -59,7 +59,7 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < waveNumber * 3f; i++)
+        for (int i = 0; i < Mathf.Max(waveNumber * 2f); i++)
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 

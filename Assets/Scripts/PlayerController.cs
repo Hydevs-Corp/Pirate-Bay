@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         }
 
         float rotationFactor = Mathf.Abs(horizontal);
-        acceleration *= 1 - rotationFactor * 0.015f;
+        acceleration *= 1 - rotationFactor * 0.01f;
 
         acceleration = Mathf.Clamp(acceleration, -maxSpeed / 2, maxSpeed);
         Vector3 velocity = acceleration * speed * Time.fixedDeltaTime * transform.forward;
@@ -72,9 +72,9 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = velocity;
 
         float rotationModifier = acceleration;
-        if (Mathf.Abs(rotationModifier) < 0.3f)
+        if (Mathf.Abs(rotationModifier) < 0.8f)
         {
-            rotationModifier = 1f;
+            rotationModifier = 2f;
         }
 
         transform.Rotate(horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up);
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
             if (Gamepad.current.rightTrigger.wasPressedThisFrame) ShootMortar("gamepad");
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.Mouse1))
         {
 
             if (currentShootIntervalLeft < shootInterval)
@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) ShootMortar();
+        if (Input.GetKey(KeyCode.Mouse0)) ShootMortar();
 
         if (Input.GetKeyDown(KeyCode.H))
         {
