@@ -138,6 +138,8 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot(float direction)
     {
+        gameObject.GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(gameObject.GetComponent<AudioSource>().clip, UnityEngine.Random.Range(0.05f, 0.1f));
         Quaternion rotation = transform.rotation;
         rotation *= Quaternion.Euler(0, direction, 0);
         GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
@@ -150,6 +152,8 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        gameObject.GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(gameObject.GetComponent<AudioSource>().clip, UnityEngine.Random.Range(0.05f, 0.1f));
         GameObject plane = GameObject.Find("Sea");
         Ray ray;
         if (input == "mouse")

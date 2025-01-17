@@ -53,6 +53,9 @@ public class EnemyController : MonoBehaviour
             currentShootInterval += Time.deltaTime;
             return;
         }
+        gameObject.GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(gameObject.GetComponent<AudioSource>().clip, UnityEngine.Random.Range(0.1f, 0.3f));
+
         Vector3 direction = (target.transform.position + (target.transform.forward * 3f) - gameObject.transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
         rotation *= Quaternion.Euler(-3, 0, 0);
