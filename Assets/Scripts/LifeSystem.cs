@@ -64,6 +64,7 @@ public class LifeSystem : MonoBehaviour
                 MainMenu.SetActive(true);
             if (Quit)
                 Quit.SetActive(true);
+            gameObject.GetComponent<LifeSystem>().enabled = false;
         }
     }
 
