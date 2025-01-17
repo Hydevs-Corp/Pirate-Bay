@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private float horizontal;
     private Vector2 lastRightStickDirection = Vector2.zero;
 
+    private bool isUsingGamepad = false;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -39,6 +41,16 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        if (Gamepad.current != null)
+        {
+            isUsingGamepad = true;
+        }
+        else
+        {
+            isUsingGamepad = false;
+        }
+
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
 
@@ -77,7 +89,14 @@ public class PlayerController : MonoBehaviour
             rotationModifier = 2f;
         }
 
-        transform.Rotate(horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up);
+        Vector3 rotation = horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up;
+
+        if (isUsingGamepad)
+        {
+            rotation *= -1;
+        }
+
+        transform.Rotate(rotation);
     }
 
     void Update()
