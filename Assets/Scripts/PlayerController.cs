@@ -134,6 +134,13 @@ public class PlayerController : MonoBehaviour
             gameObject.GetComponent<LifeSystem>().TakeDamage(1);
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale == 0)
+                Time.timeScale = 1;
+            else
+                Time.timeScale = 0;
+        }
     }
 
     private void Shoot(float direction)
