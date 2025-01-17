@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     // public GameObject Menu;
     // public GameObject CreditsMenu;
-    private GameObject PauseText;
+    private GameObject BGPause;
     private GameObject Resume;
     private GameObject Restart;
     private GameObject PauseMenu;
@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        PauseText = GameObject.Find("Pause");
+        BGPause = GameObject.Find("BGPause");
         Resume = GameObject.Find("Resume");
         Restart = GameObject.Find("RestartPause");
         PauseMenu = GameObject.Find("MainMenuPause");
@@ -54,7 +54,7 @@ public class MainMenu : MonoBehaviour
     {
         // Resume Game
         Time.timeScale = 1;
-        PauseText.SetActive(false);
+        BGPause.SetActive(false);
         Resume.SetActive(false);
         Restart.SetActive(false);
         PauseMenu.SetActive(false);
