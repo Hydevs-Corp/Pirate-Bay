@@ -21,11 +21,11 @@ public class MainMenu : MonoBehaviour
         PauseMenu = GameObject.Find("MainMenuPause");
         Quit = GameObject.Find("QuitPause");
 
-        PauseText.SetActive(false);
-        Resume.SetActive(false);
-        Restart.SetActive(false);
-        PauseMenu.SetActive(false);
-        Quit.SetActive(false);
+        // PauseText.SetActive(false);
+        // Resume.SetActive(false);
+        // Restart.SetActive(false);
+        // PauseMenu.SetActive(false);
+        // Quit.SetActive(false);
 
     }
 
