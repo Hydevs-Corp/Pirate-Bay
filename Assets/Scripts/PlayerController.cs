@@ -29,6 +29,11 @@ public class PlayerController : MonoBehaviour
     private float vertical;
     private float horizontal;
     private Vector2 lastRightStickDirection = Vector2.zero;
+    private GameObject PauseText;
+    private GameObject Resume;
+    private GameObject Restart;
+    private GameObject MainMenu;
+    private GameObject Quit;
 
     private bool isUsingGamepad = false;
 
@@ -37,6 +42,18 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         scoreText = GameObject.Find("ScoreText");
         scoreText.GetComponent<TMP_Text>().text = "" + score;
+        PauseText = GameObject.Find("Pause");
+        Resume = GameObject.Find("Resume");
+        Restart = GameObject.Find("RestartPause");
+        MainMenu = GameObject.Find("MainMenuPause");
+        Quit = GameObject.Find("QuitPause");
+
+        PauseText.SetActive(false);
+        Resume.SetActive(false);
+        Restart.SetActive(false);
+        MainMenu.SetActive(false);
+        Quit.SetActive(false);
+
     }
 
     void FixedUpdate()
@@ -156,9 +173,25 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (Time.timeScale == 0)
+            {
                 Time.timeScale = 1;
+                PauseText.SetActive(false);
+                Resume.SetActive(false);
+                Restart.SetActive(false);
+                MainMenu.SetActive(false);
+                Quit.SetActive(false);
+            }
             else
+            {
+
                 Time.timeScale = 0;
+                PauseText.SetActive(true);
+                Resume.SetActive(true);
+                Restart.SetActive(true);
+                MainMenu.SetActive(true);
+                Quit.SetActive(true);
+            }
+
         }
     }
 
