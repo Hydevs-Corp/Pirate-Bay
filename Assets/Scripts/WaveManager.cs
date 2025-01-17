@@ -59,7 +59,9 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < Mathf.Max(waveNumber * 2f); i++)
+        enemiesAlive = Mathf.Max(2, waveNumber * 2);
+
+        for (int i = 0; i < enemiesAlive; i++)
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
@@ -69,7 +71,6 @@ public class WaveManager : MonoBehaviour
             int lootIndex = Random.Range(0, loots.Count);
             GameObject lootPrefab = loots[lootIndex];
 
-            enemiesAlive++;
             GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
 
 
@@ -108,7 +109,6 @@ public class WaveManager : MonoBehaviour
     public void EnemyDied()
     {
         enemiesAlive--;
-        print("Enemies alive: " + enemiesAlive);
         if (enemiesAlive <= 0)
         {
             SpawnWave();

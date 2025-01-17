@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     private int health = 6;
     private float shootInterval = 2.0f;
     private float currentShootInterval = 2.0f;
+    private bool isDead = false;
 
     void Update()
     {
@@ -73,7 +74,11 @@ public class EnemyController : MonoBehaviour
         {
             if (loot)
                 Instantiate(loot, gameObject.transform.position + Vector3.up * 1f, gameObject.transform.rotation);
-            GameObject.Find("Spawner").GetComponent<WaveManager>().EnemyDied();
+            if (!isDead)
+            {
+                isDead = true;
+                GameObject.Find("Spawner").GetComponent<WaveManager>().EnemyDied();
+            }
             Destroy(this.gameObject);
         }
     }
