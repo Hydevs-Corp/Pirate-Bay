@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         scoreText = GameObject.Find("ScoreText");
         scoreText.GetComponent<TMP_Text>().text = "" + score;
+        if (PlayerPrefs.GetInt("highscore", 0) != 0)
+            scoreText.GetComponent<TMP_Text>().text += " (" + PlayerPrefs.GetInt("highscore", 0) + ")";
         BGPause = GameObject.Find("BGPause");
         Resume = GameObject.Find("Resume");
         Restart = GameObject.Find("RestartPause");
@@ -250,6 +252,8 @@ public class PlayerController : MonoBehaviour
             if (score > PlayerPrefs.GetInt("highscore", 0))
                 PlayerPrefs.SetInt("highscore", score);
             scoreText.GetComponent<TMP_Text>().text = "" + score;
+            if (PlayerPrefs.GetInt("highscore", 0) != 0)
+                scoreText.GetComponent<TMP_Text>().text += " (" + PlayerPrefs.GetInt("highscore", 0) + ")";
             gameObject.GetComponent<LifeSystem>().Heal(1);
         }
     }
