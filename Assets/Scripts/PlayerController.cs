@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 rotation = horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up;
 
-        if (isUsingGamepad)
+        if (isUsingGamepad && acceleration < 0)
         {
             rotation *= -1;
         }
