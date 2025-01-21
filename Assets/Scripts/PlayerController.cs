@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -36,6 +33,11 @@ public class PlayerController : MonoBehaviour
     private GameObject Quit;
 
     private bool isUsingGamepad = false;
+
+    private bool isFiringDash = false;
+    private float dashInterval = 2f;
+    private float currentDashInterval = 5f;
+    private float lastImageRotation = 0;
 
     void Start()
     {
@@ -110,7 +112,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 rotation = horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up;
 
-        if (isUsingGamepad && acceleration < 0)
+
+        if (acceleration < 0)
         {
             rotation *= -1;
         }
@@ -155,13 +158,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1))
         {
 
-            if (currentShootIntervalLeft < shootInterval)
+            if (currentShootIntervalLeft >= shootInterval)
             {
-                return;
+                Shoot(90);
+                Shoot(-90);
+                currentShootIntervalLeft = 0.0f;
             }
-            Shoot(90);
-            Shoot(-90);
-            currentShootIntervalLeft = 0.0f;
         }
 
 
@@ -193,14 +195,87 @@ public class PlayerController : MonoBehaviour
                 MainMenu.SetActive(true);
                 Quit.SetActive(true);
             }
+            isFiringDash = false;
 
         }
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     Time.timeScale = 0.5F;
+        // }
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     Time.timeScale = 1.0F;
+        // }
+        currentDashInterval += Time.deltaTime;
+
+        float directionRotation = 0;
+        if (isUsingGamepad)
+        {
+            if (Gamepad.current.rightStick.ReadValue().magnitude > 0.1)
+            {
+                lastRightStickDirection = Gamepad.current.rightStick.ReadValue();
+                directionRotation = Mathf.Atan2(lastRightStickDirection.y, lastRightStickDirection.x) * Mathf.Rad2Deg;
+            }
+        }
+        else
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10;
+            Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+            mousePos.x -= objectPos.x;
+            mousePos.y -= objectPos.y;
+            directionRotation = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg - 90;
+        }
+
+        GameObject directionImage = GameObject.Find("directionimage");
+        if (directionImage != null)
+        {
+            float newRotation = directionRotation;
+            directionImage.transform.RotateAround(transform.position, Vector3.up, lastImageRotation - newRotation);
+            lastImageRotation = newRotation;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (currentDashInterval < dashInterval)
+            {
+                return;
+            }
+            isFiringDash = true;
+            GameObject.Find("directionimage").GetComponent<SpriteRenderer>().enabled = true;
+        }
+        else
+        {
+            GameObject.Find("directionimage").GetComponent<SpriteRenderer>().enabled = false;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            if (isFiringDash)
+            {
+                gameObject.transform.rotation = Quaternion.AngleAxis(gameObject.transform.rotation.eulerAngles.y - directionRotation, Vector3.up);
+                if (acceleration <= 0) acceleration = 0.001f;
+                float a = Mathf.Clamp(maxSpeed / acceleration / 80, 2, 8);
+                print(a + " ||||| " + Mathf.Clamp(maxSpeed / acceleration / 80, 2, 8));
+                acceleration += a / 2;
+
+                currentDashInterval = 0.0f;
+                isFiringDash = false;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            // transform.position = new Vector3(-3.85914f, transform.position.y, 52.56866f);
+            // transform.rotation = Quaternion.Euler(0, 0, 0);
+            acceleration = 0;
+        }
+
     }
 
     private void Shoot(float direction)
     {
-        gameObject.GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.8f, 1.2f);
-        gameObject.GetComponent<AudioSource>().PlayOneShot(gameObject.GetComponent<AudioSource>().clip, UnityEngine.Random.Range(0.05f, 0.1f));
+        gameObject.GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(gameObject.GetComponent<AudioSource>().clip, Random.Range(0.05f, 0.1f));
         Quaternion rotation = transform.rotation;
         rotation *= Quaternion.Euler(0, direction, 0);
         GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + Vector3.up * 3f, rotation);
