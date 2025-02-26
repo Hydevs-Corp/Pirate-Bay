@@ -32,21 +32,18 @@ public class MainMenu : MonoBehaviour
 
     public void PlayNowButton()
     {
-        print("HELLO");
         // Play Now Button has been pressed, here you can initialize your game (For example Load a Scene called GameLevel etc.)
         UnityEngine.SceneManagement.SceneManager.LoadScene("Funcs");
     }
 
     public void RestartButton()
     {
-        print("HELLO");
         // Play Now Button has been pressed, here you can initialize your game (For example Load a Scene called GameLevel etc.)
         UnityEngine.SceneManagement.SceneManager.LoadScene("Funcs");
     }
 
     public void MainMenuButton()
     {
-        print("Menu");
         // Play Now Button has been pressed, here you can initialize your game (For example Load a Scene called GameLevel etc.)
         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
