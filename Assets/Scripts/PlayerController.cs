@@ -249,7 +249,7 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Find("directionimage").GetComponent<SpriteRenderer>().enabled = false;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             if (isFiringDash)
             {
