@@ -255,7 +255,6 @@ public class PlayerController : MonoBehaviour
                 gameObject.transform.rotation = Quaternion.AngleAxis(gameObject.transform.rotation.eulerAngles.y - directionRotation, Vector3.up);
                 if (acceleration <= 0) acceleration = 0.001f;
                 float a = Mathf.Clamp(maxSpeed / acceleration / 80, 2, 8);
-                print(a + " ||||| " + Mathf.Clamp(maxSpeed / acceleration / 80, 2, 8));
                 acceleration += a / 2;
 
                 currentDashInterval = 0.0f;
