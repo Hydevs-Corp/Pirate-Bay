@@ -18,6 +18,7 @@ public class WaveManager : MonoBehaviour
 
     private int waveNumber = 0;
     private GameObject NewWave;
+    private TMP_Text RemainingEnemiesText;
     private GameObject WaveText;
 
     void Start()
@@ -61,7 +62,7 @@ public class WaveManager : MonoBehaviour
 
         int enemyToSpawn = Mathf.Max(2, waveNumber * 2);
 
-        List<Transform> sortedSpawnPoints = new List<Transform>(spawnPoints);
+        var sortedSpawnPoints = new List<Transform>(spawnPoints);
         sortedSpawnPoints.Sort((a, b) => -Vector3.Distance(a.position, target.transform.position).CompareTo(Vector3.Distance(b.position, target.transform.position)));
         for (int i = 0; i < sortedSpawnPoints.Count; i++)
         {
@@ -101,6 +102,7 @@ public class WaveManager : MonoBehaviour
 
             enemiesAlive++;
         }
+        DisplayRemainingEmeniesText();
         return;
     }
 
@@ -128,10 +130,16 @@ public class WaveManager : MonoBehaviour
         canvasGroup.alpha = 0;
         SpawnEnemies();
     }
+    private void DisplayRemainingEmeniesText()
+    {
+        RemainingEnemiesText = GameObject.Find("RemainingEnemiesText").GetComponent<TMP_Text>();
+        RemainingEnemiesText.text = "" + enemiesAlive;
+    }
 
     public void EnemyDied()
     {
         enemiesAlive--;
+        DisplayRemainingEmeniesText();
         if (enemiesAlive <= 0)
         {
             SpawnWave();
