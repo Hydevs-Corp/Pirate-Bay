@@ -7935,6 +7935,10 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 116
       objectReference: {fileID: 0}
+    - target: {fileID: 4514682695915377, guid: a63830d48d4e56041948c08202c39764, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0c7754410ac4fe14da1ef4a4274c730f, type: 2}
     - target: {fileID: 354551892378667724, guid: a63830d48d4e56041948c08202c39764, type: 3}
       propertyPath: m_Volume
       value: 1

@@ -73,5 +73,5 @@
         "Assets/Scrip[!t]*/**": true,
         "Assets/Script[!s]*/**": true
     },
-    "dotnet.defaultSolution": "Pirate-Bay.sln"
+    "dotnet.defaultSolution": "Pirate Bay.sln"
 }
