@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool isUsingGamepad = false;
 
     private bool isFiringDash = false;
-    private float dashInterval = 2f;
+    private float dashInterval = 4f;
     private float currentDashInterval = 5f;
     private float lastImageRotation = 0;
 
@@ -248,7 +249,7 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Find("directionimage").GetComponent<SpriteRenderer>().enabled = false;
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isFiringDash)
             {
@@ -257,6 +258,8 @@ public class PlayerController : MonoBehaviour
                 float a = Mathf.Clamp(maxSpeed / acceleration / 80, 2, 8);
                 print(a + " ||||| " + Mathf.Clamp(maxSpeed / acceleration / 80, 2, 8));
                 acceleration += a / 2;
+
+                gameObject.GetComponent<LifeSystem>().lastTimeCollided = Time.time + 2.0f;
 
                 currentDashInterval = 0.0f;
                 isFiringDash = false;
@@ -270,6 +273,16 @@ public class PlayerController : MonoBehaviour
             acceleration = 0;
         }
 
+        // if dashing, apply color swap to gold 
+        if (currentDashInterval < dashInterval)
+        {
+            GameObject.Find("DashIndicator").GetComponent<Light>().color = Color.red;
+        }
+        else
+        {
+            GameObject.Find("DashIndicator").GetComponent<Light>().color = Color.green;
+
+        }
     }
 
     private void Shoot(float direction)
