@@ -101,14 +101,27 @@ public class PlayerController : MonoBehaviour
         acceleration *= 1 - rotationFactor * 0.01f;
 
         acceleration = Mathf.Clamp(acceleration, -maxSpeed / 2, maxSpeed);
+            // print("speed: " + speed);
+        // if (speed < 15)
+        // {
+        //     acceleration *= 15f;
+        //     print("Trigger quickstart ! " + acceleration);
+        // }
         Vector3 velocity = acceleration * speed * Time.fixedDeltaTime * transform.forward;
         velocity.y = rb.linearVelocity.y;
         rb.linearVelocity = velocity;
 
         float rotationModifier = acceleration;
-        if (Mathf.Abs(rotationModifier) < 0.8f)
+        if (Mathf.Abs(rotationModifier) < 2.0f)
         {
-            rotationModifier = 2f;
+            if (Mathf.Abs(rotationModifier) < 2.0f)
+            {
+                rotationModifier = 4.0f;
+            }
+            else
+            {
+                rotationModifier = 10f * Mathf.Max(1/Mathf.Abs(rotationModifier), 2f);
+            }
         }
 
         Vector3 rotation = horizontal * rotationSpeed * rotationModifier * Time.fixedDeltaTime * transform.up;
