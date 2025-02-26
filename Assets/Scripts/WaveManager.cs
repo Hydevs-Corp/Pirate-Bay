@@ -18,6 +18,7 @@ public class WaveManager : MonoBehaviour
 
     private int waveNumber = 0;
     private GameObject NewWave;
+    private TMP_Text RemainingEnemiesText;
     private GameObject WaveText;
 
     void Start()
@@ -45,7 +46,7 @@ public class WaveManager : MonoBehaviour
         StartCoroutine(DisplayNewWaveText());
     }
 
-    void SpawnEnemies()
+    public void SpawnEnemies()
     {
         if (spawnPoints.Count == 0)
         {
@@ -59,11 +60,33 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        enemiesAlive = Mathf.Max(2, waveNumber * 2);
+        int enemyToSpawn = Mathf.Max(2, waveNumber * 2);
 
-        for (int i = 0; i < enemiesAlive; i++)
+        var sortedSpawnPoints = new List<Transform>(spawnPoints);
+        sortedSpawnPoints.Sort((a, b) => -Vector3.Distance(a.position, target.transform.position).CompareTo(Vector3.Distance(b.position, target.transform.position)));
+        for (int i = 0; i < sortedSpawnPoints.Count; i++)
         {
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+            if (Vector3.Distance(sortedSpawnPoints[i].position, target.transform.position) < 40)
+            {
+                sortedSpawnPoints.RemoveAt(i);
+                i--;
+            }
+        }
+
+        print("Sorted spawn points length: " + sortedSpawnPoints.Count);
+
+        if (sortedSpawnPoints.Count == 0)
+        {
+            sortedSpawnPoints = new List<Transform>(spawnPoints);
+        }
+
+        print("Spawning " + enemyToSpawn + " enemies");
+
+        for (int i = 0; i < enemyToSpawn; i++)
+        {
+            Transform spawnPoint = sortedSpawnPoints[i % spawnPoints.Count];
+            print("Spawning enemy at " + spawnPoint.position);
+
 
             int enemyIndex = Random.Range(0, enemyPrefabs.Count);
             GameObject enemyPrefab = enemyPrefabs[enemyIndex];
@@ -77,7 +100,9 @@ public class WaveManager : MonoBehaviour
             enemy.GetComponent<EnemyController>().target = target;
             enemy.GetComponent<EnemyController>().loot = lootPrefab;
 
+            enemiesAlive++;
         }
+        DisplayRemainingEmeniesText();
         return;
     }
 
@@ -105,10 +130,16 @@ public class WaveManager : MonoBehaviour
         canvasGroup.alpha = 0;
         SpawnEnemies();
     }
+    private void DisplayRemainingEmeniesText()
+    {
+        RemainingEnemiesText = GameObject.Find("RemainingEnemiesText").GetComponent<TMP_Text>();
+        RemainingEnemiesText.text = "" + enemiesAlive;
+    }
 
     public void EnemyDied()
     {
         enemiesAlive--;
+        DisplayRemainingEmeniesText();
         if (enemiesAlive <= 0)
         {
             SpawnWave();

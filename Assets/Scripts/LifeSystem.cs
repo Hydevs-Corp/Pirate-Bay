@@ -17,7 +17,7 @@ public class LifeSystem : MonoBehaviour
     public Sprite emptyHeart;
 
     [Header("LifeWarning")]
-    private float lastTimeCollided = 0.0f;
+    public float lastTimeCollided = 0.0f;
     private GameObject vignette;
     private GameObject DeathText;
 
@@ -136,6 +136,7 @@ public class LifeSystem : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("EnemyBullet"))
         {
+            
             TakeDamage(collision.gameObject.GetComponent<BulletController>().damage);
 
             Destroy(collision.gameObject);
@@ -145,6 +146,7 @@ public class LifeSystem : MonoBehaviour
         {
             gameObject.GetComponent<PlayerController>().acceleration *= -0.5f;
 
+            // Case where you keep hitting the wall
             if (Time.time - lastTimeCollided < 1.5f)
             {
                 return;
