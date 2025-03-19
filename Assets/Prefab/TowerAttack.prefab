@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1657361b4db1d6b4e8495ac2b5ca1e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7737710467234772094, guid: b49cc4495bd1a974eaea8f39d5ebfbb4, type: 3}
+  bulletPrefab: {fileID: 7737710467234772094, guid: 51ea4b98f67072143b68a9b1522ba131, type: 3}
   detectionRadius: 40
   shootInterval: 2
   playerLayer:
@@ -4907,7 +4907,7 @@ Transform:
   m_GameObject: {fileID: 8203268325930505927}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.29, y: 8.42, z: 0.11}
+  m_LocalPosition: {x: 0.12, y: 8.43, z: -0.19}
   m_LocalScale: {x: 1.1679, y: 1.1679, z: 1.1679}
   m_ConstrainProportionsScale: 0
   m_Children: []
