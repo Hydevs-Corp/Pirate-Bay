@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkinMenu : MonoBehaviour
 {
 
-    public List<Material> colormaps = new();
+    private List<Material> colormaps;
     public GameObject ButtonPrefab;
     public GameObject boatPrefab;
 
@@ -18,7 +18,14 @@ public class SkinMenu : MonoBehaviour
 
     void Start()
     {
+
+        colormaps = new List<Material>(Resources.LoadAll<Material>("BoatSkins"));
+
         localSkinIndex = PlayerPrefs.GetInt("skinIndex", 0);
+        if (localSkinIndex >= colormaps.Count)
+        {
+            localSkinIndex = 0;
+        }
         SetSkin(localSkinIndex);
 
         if (boatPrefab == null) return;
@@ -27,12 +34,12 @@ public class SkinMenu : MonoBehaviour
         {
             GameObject boat = Instantiate(boatPrefab);
             boat.transform.SetParent(transform);
-            boat.transform.localScale = new Vector3(12f, 12f, 12f);
+            boat.transform.localScale = new Vector3(10f, 10f, 10f);
             boat.transform.position = this.transform.position;
             float offset = 8 * (colormaps.IndexOf(colormap) - (colormaps.Count - 1) / 2.0f);
-            boat.transform.position += new Vector3(offset, 3f, -10f);
-
-            boat.transform.Rotate(new Vector3(0f, 116f + 15f, 347f + 25f));
+            boat.transform.position += new Vector3(offset, 5f, -10f);
+            // boat.transform.Rotate(new Vector3(0f, 116f + 15f, 347f + 25f));
+            boat.transform.Rotate(new Vector3(0f, 0f, 0f));
             boat.GetComponent<MeshRenderer>().material = colormap;
             MeshRenderer[] meshRenderers = boat.GetComponentsInChildren<MeshRenderer>();
 
@@ -44,6 +51,7 @@ public class SkinMenu : MonoBehaviour
             IddleController iddleController = boat.AddComponent<IddleController>();
             iddleController.rotate = true;
             iddleController.force = 0.1f + 0.01f * colormaps.IndexOf(colormap);
+            iddleController.timeOffset = 1f * colormaps.IndexOf(colormap);
 
             boat.name = colormap.name;
 

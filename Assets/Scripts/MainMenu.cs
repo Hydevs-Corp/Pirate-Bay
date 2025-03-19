@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     private GameObject PauseMenu;
     private GameObject Quit;
 
-    private GameObject SkinMenu;
+    public GameObject SkinMenu;
 
     void Start()
     {
@@ -22,21 +22,18 @@ public class MainMenu : MonoBehaviour
         Restart = GameObject.Find("RestartPause");
         PauseMenu = GameObject.Find("MainMenuPause");
         Quit = GameObject.Find("QuitPause");
-
-        SkinMenu = GameObject.Find("SkinMenu");
-
-        if (SkinMenu != null)
-            SkinMenu.SetActive(false);
     }
 
     public void ShowSkinMenu()
     {
-        SkinMenu.SetActive(true);
+        if (SkinMenu != null)
+            SkinMenu.SetActive(true);
     }
 
     public void HideSkinMenu()
     {
-        SkinMenu.SetActive(false);
+        if (SkinMenu != null)
+            SkinMenu.SetActive(false);
     }
 
     public void PlayNowButton()
@@ -48,12 +45,14 @@ public class MainMenu : MonoBehaviour
     public void RestartButton()
     {
         // Play Now Button has been pressed, here you can initialize your game (For example Load a Scene called GameLevel etc.)
+        Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene("Funcs");
     }
 
     public void MainMenuButton()
     {
         // Play Now Button has been pressed, here you can initialize your game (For example Load a Scene called GameLevel etc.)
+        Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
     public void ResumeButton()

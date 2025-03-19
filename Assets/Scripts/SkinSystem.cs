@@ -6,12 +6,14 @@ public class SkinSystem : MonoBehaviour
 
     public int skinIndex = 0;
 
-    public List<Material> skins = new();
+    private List<Material> colormaps;
     public List<GameObject> flags = new();
     public List<GameObject> sails = new();
 
     void Start()
     {
+        colormaps = new List<Material>(Resources.LoadAll<Material>("BoatSkins"));
+
         UpdateSkin();
     }
 
@@ -19,15 +21,19 @@ public class SkinSystem : MonoBehaviour
     {
 
         skinIndex = PlayerPrefs.GetInt("skinIndex", 0);
+        if (skinIndex >= colormaps.Count)
+        {
+            skinIndex = 0;
+        }
 
         for (int i = 0; i < flags.Count; i++)
         {
-            flags[i].GetComponent<MeshRenderer>().material = skins[skinIndex];
+            flags[i].GetComponent<MeshRenderer>().material = colormaps[skinIndex];
         }
         for (int i = 0; i < sails.Count; i++)
         {
-            sails[i].GetComponent<MeshRenderer>().material = skins[skinIndex];
+            sails[i].GetComponent<MeshRenderer>().material = colormaps[skinIndex];
         }
-        gameObject.GetComponent<MeshRenderer>().material = skins[skinIndex];
+        gameObject.GetComponent<MeshRenderer>().material = colormaps[skinIndex];
     }
 }
