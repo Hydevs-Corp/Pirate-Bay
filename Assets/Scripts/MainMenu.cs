@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour
     private GameObject PauseMenu;
     private GameObject Quit;
 
+    private GameObject SkinMenu;
+
     void Start()
     {
         BGPause = GameObject.Find("BGPause");
@@ -21,14 +23,21 @@ public class MainMenu : MonoBehaviour
         PauseMenu = GameObject.Find("MainMenuPause");
         Quit = GameObject.Find("QuitPause");
 
-        // PauseText.SetActive(false);
-        // Resume.SetActive(false);
-        // Restart.SetActive(false);
-        // PauseMenu.SetActive(false);
-        // Quit.SetActive(false);
+        SkinMenu = GameObject.Find("SkinMenu");
 
+        if (SkinMenu != null)
+            SkinMenu.SetActive(false);
     }
 
+    public void ShowSkinMenu()
+    {
+        SkinMenu.SetActive(true);
+    }
+
+    public void HideSkinMenu()
+    {
+        SkinMenu.SetActive(false);
+    }
 
     public void PlayNowButton()
     {

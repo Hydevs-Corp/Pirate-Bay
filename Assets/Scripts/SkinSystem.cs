@@ -10,32 +10,16 @@ public class SkinSystem : MonoBehaviour
     public List<GameObject> flags = new();
     public List<GameObject> sails = new();
 
-    void Update()
+    void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            skinIndex = 0;
-            UpdateSkin();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            skinIndex = 1;
-            UpdateSkin();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            skinIndex = 2;
-            UpdateSkin();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            skinIndex = 3;
-            UpdateSkin();
-        }
+        UpdateSkin();
     }
 
     void UpdateSkin()
     {
+
+        skinIndex = PlayerPrefs.GetInt("skinIndex", 0);
+
         for (int i = 0; i < flags.Count; i++)
         {
             flags[i].GetComponent<MeshRenderer>().material = skins[skinIndex];
