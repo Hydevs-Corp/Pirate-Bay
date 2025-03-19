@@ -104,19 +104,19 @@ Material:
     - _Softness: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TimeMultU: 0.8
-    - _TimeMultV: 0.3
+    - _TimeMultU: 1
+    - _TimeMultV: 5
     - _TimeUMult: 79
     - _TimeVMult: 50
     - _UDepth: 10
-    - _UMovement: 1
-    - _UScaler: 0.2
+    - _UMovement: 0.2
+    - _UScaler: 0.01
     - _UVSec: 0
-    - _VDepth: 20
-    - _VMovement: 1
-    - _VScaler: 0.2
+    - _VDepth: 30
+    - _VMovement: 0.3
+    - _VScaler: 0.01
     - _WaterSineAmount: 5.78
-    - _WaveAmp: 0.03
+    - _WaveAmp: 0.05
     - _WaveOffset: 5
     - _WaveSpeed: 1
     - _ZWrite: 1
